@@ -33,7 +33,6 @@ export function PharmacyTable({
   pharmacies,
   isLoading,
   isAdmin = false,
-  onUpdateStatus,
   activeFilter,
   onFilterChange,
   telegramBotFilter,
