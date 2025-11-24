@@ -86,34 +86,6 @@ export default function AgentPanel() {
     }
   };
 
-  const handleUpdateStatus = async (
-    pharmacyId: number,
-    field: 'brandedPacket' | 'training',
-    value: boolean
-  ) => {
-    if (!token) return;
-
-    try {
-      await updatePharmacyStatus(token, pharmacyId, field, value);
-
-      setPharmacies((prev) =>
-        prev.map((p) =>
-          p.id === pharmacyId ? { ...p, [field]: value } : p
-        )
-      );
-
-      setFilteredPharmacies((prev) =>
-        prev.map((p) =>
-          p.id === pharmacyId ? { ...p, [field]: value } : p
-        )
-      );
-
-      toast.success(t.saved);
-    } catch (error) {
-      console.error('Failed to update pharmacy:', error);
-      toast.error(t.error);
-    }
-  };
 
   if (authLoading) {
     return (
