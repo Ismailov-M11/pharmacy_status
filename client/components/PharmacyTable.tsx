@@ -46,8 +46,6 @@ export function PharmacyTable({
   onPharmacyClick,
 }: PharmacyTableProps) {
   const { t } = useLanguage();
-  const [updatingIds, setUpdatingIds] = useState<Set<string>>(new Set());
-  const [editableFields, setEditableFields] = useState<Record<number, { brandedPacket: boolean; training: boolean }>>({});
 
   const handleFilterChange = (value: string, setter: (val: boolean | null) => void) => {
     if (value === 'true') {
