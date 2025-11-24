@@ -169,7 +169,7 @@ export function PharmacyTable({
 
       <div className="overflow-x-auto">
         <table className="w-full text-xs md:text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200 sticky top-[73px] z-40">
+          <thead className="bg-gray-50 border-b border-gray-200 sticky top-[73px] z-40 bg-white">
             <tr>
               <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap" style={{ width: '50px' }}>
                 {t.number}
@@ -270,8 +270,8 @@ export function PharmacyTable({
                   <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[180px]">
                     {t.juridicalName}
                   </th>
-                  <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[200px]">
-                    {t.juridicalAddress}
+                  <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700" style={{ width: '200px', minWidth: '200px' }}>
+                    <div className="break-words">{t.juridicalAddress}</div>
                   </th>
                   <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[150px]">
                     {t.bankName}
@@ -313,7 +313,7 @@ export function PharmacyTable({
                     </div>
                   </td>
                   <td className="px-2 py-2 md:py-3 text-gray-600 align-top">
-                    <div className="break-words overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', lineHeight: '1.4em', minHeight: '4.2em' }}>
+                    <div className="break-words" style={{ lineHeight: '1.4em', minHeight: '4.2em' }}>
                       {(pharmacy as any).landmark || '-'}
                     </div>
                   </td>
@@ -332,13 +332,6 @@ export function PharmacyTable({
                         }`}>
                         {getTelegramBotStatus((pharmacy as any).marketChats)}
                       </div>
-                      {isAdmin && telegramBotDetails && (
-                        <div className="text-xs text-gray-500 mt-1 text-left w-full">
-                          <div className="truncate">ID: {telegramBotDetails.id}</div>
-                          <div className="truncate">Name: {telegramBotDetails.name}</div>
-                          <div className="truncate">User: {telegramBotDetails.username}</div>
-                        </div>
-                      )}
                     </div>
                   </td>
                   <td className="px-2 md:px-4 py-2 md:py-3 text-center">
@@ -391,7 +384,11 @@ export function PharmacyTable({
                       <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs whitespace-nowrap">{(pharmacy.lead as any)?.stir || '-'}</td>
                       <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs whitespace-nowrap">{(pharmacy.lead as any)?.additionalPhone || '-'}</td>
                       <td className="px-2 md:px-4 py-2 md:py-3 text-gray-600 text-xs max-w-xs truncate">{(pharmacy.lead as any)?.juridicalName || '-'}</td>
-                      <td className="px-2 md:px-4 py-2 md:py-3 text-gray-600 text-xs max-w-xs truncate">{(pharmacy.lead as any)?.juridicalAddress || '-'}</td>
+                      <td className="px-2 md:px-4 py-2 md:py-3 text-gray-600 text-xs align-top">
+                        <div className="break-words" style={{ lineHeight: '1.4em', minHeight: '4.2em' }}>
+                          {(pharmacy.lead as any)?.juridicalAddress || '-'}
+                        </div>
+                      </td>
                       <td className="px-2 md:px-4 py-2 md:py-3 text-gray-600 text-xs max-w-xs truncate">{(pharmacy.lead as any)?.bankName || '-'}</td>
                       <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs font-mono whitespace-nowrap">{(pharmacy.lead as any)?.bankAccount || '-'}</td>
                       <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs whitespace-nowrap">{(pharmacy.lead as any)?.mfo || '-'}</td>
