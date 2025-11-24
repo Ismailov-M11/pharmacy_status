@@ -1,23 +1,23 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { useAuth } from '@/contexts/AuthContext';
-import { login as apiLogin } from '@/lib/api';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { login as apiLogin } from "@/lib/api";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function Login() {
   const { language, setLanguage, t } = useLanguage();
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsLoading(true);
 
     try {
@@ -36,8 +36,8 @@ export default function Login() {
       ) {
         const token = response.payload.token.token;
         const role = response.payload.user.authorities[0].authority as
-          | 'ROLE_AGENT'
-          | 'ROLE_ADMIN';
+          | "ROLE_AGENT"
+          | "ROLE_ADMIN";
         const userData = {
           id: response.payload.user.id,
           username: response.payload.user.username,
@@ -46,17 +46,17 @@ export default function Login() {
 
         login(token, role, userData);
 
-        if (role === 'ROLE_ADMIN') {
-          navigate('/admin');
-        } else if (role === 'ROLE_AGENT') {
-          navigate('/agent');
+        if (role === "ROLE_ADMIN") {
+          navigate("/admin");
+        } else if (role === "ROLE_AGENT") {
+          navigate("/agent");
         }
       } else {
         setError(t.invalidCredentials);
       }
     } catch (err) {
       setError(t.loginError);
-      console.error('Login error:', err);
+      console.error("Login error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -67,30 +67,38 @@ export default function Login() {
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="flex flex-col items-center mb-8">
-            <img src="/logo.svg" alt="Davo Delivery" className="w-20 h-20 mb-4" />
+            <img
+              src="/logo.svg"
+              alt="Davo Delivery"
+              className="w-20 h-20 mb-4"
+            />
             <h1 className="text-3xl font-bold text-center">
               <span className="text-purple-700">Davo </span>
               <span className="text-purple-700">Delivery</span>
             </h1>
-            <p className="text-gray-500 text-sm mt-2">Pharmacy Management System</p>
+            <p className="text-gray-500 text-sm mt-2">
+              Pharmacy Management System
+            </p>
           </div>
 
           <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1 mb-6">
             <button
-              onClick={() => setLanguage('ru')}
-              className={`flex-1 px-3 py-2 rounded font-medium text-sm transition-colors ${language === 'ru'
-                  ? 'bg-white text-purple-700 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-                }`}
+              onClick={() => setLanguage("ru")}
+              className={`flex-1 px-3 py-2 rounded font-medium text-sm transition-colors ${
+                language === "ru"
+                  ? "bg-white text-purple-700 shadow-sm"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
             >
               RU 🇷🇺
             </button>
             <button
-              onClick={() => setLanguage('uz')}
-              className={`flex-1 px-3 py-2 rounded font-medium text-sm transition-colors ${language === 'uz'
-                  ? 'bg-white text-purple-700 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-                }`}
+              onClick={() => setLanguage("uz")}
+              className={`flex-1 px-3 py-2 rounded font-medium text-sm transition-colors ${
+                language === "uz"
+                  ? "bg-white text-purple-700 shadow-sm"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
             >
               UZ 🇺🇿
             </button>

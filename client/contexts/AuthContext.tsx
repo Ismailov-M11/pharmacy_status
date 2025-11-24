@@ -1,6 +1,12 @@
-import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from "react";
 
-export type UserRole = 'ROLE_AGENT' | 'ROLE_ADMIN';
+export type UserRole = "ROLE_AGENT" | "ROLE_ADMIN";
 
 export interface User {
   id: number;
@@ -29,9 +35,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Initialize from localStorage
   useEffect(() => {
-    const savedToken = localStorage.getItem('auth_token');
-    const savedRole = localStorage.getItem('user_role') as UserRole | null;
-    const savedUser = localStorage.getItem('user_data');
+    const savedToken = localStorage.getItem("auth_token");
+    const savedRole = localStorage.getItem("user_role") as UserRole | null;
+    const savedUser = localStorage.getItem("user_data");
 
     if (savedToken && savedRole && savedUser) {
       setToken(savedToken);
@@ -48,9 +54,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setRole(newRole);
     setUser(newUser);
     setIsAuthenticated(true);
-    localStorage.setItem('auth_token', newToken);
-    localStorage.setItem('user_role', newRole);
-    localStorage.setItem('user_data', JSON.stringify(newUser));
+    localStorage.setItem("auth_token", newToken);
+    localStorage.setItem("user_role", newRole);
+    localStorage.setItem("user_data", JSON.stringify(newUser));
   };
 
   const logout = () => {
@@ -58,13 +64,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setRole(null);
     setUser(null);
     setIsAuthenticated(false);
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user_role');
-    localStorage.removeItem('user_data');
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("user_role");
+    localStorage.removeItem("user_data");
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, token, role, user, login, logout, isLoading }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, token, role, user, login, logout, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -73,7 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

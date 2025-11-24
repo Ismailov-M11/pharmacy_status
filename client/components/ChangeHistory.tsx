@@ -1,7 +1,7 @@
-import { useLanguage } from '@/contexts/LanguageContext';
-import { ChangeRecord } from './PharmacyDetailModal';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { useLanguage } from "@/contexts/LanguageContext";
+import { ChangeRecord } from "./PharmacyDetailModal";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 
 interface ChangeHistoryProps {
   records: ChangeRecord[];
@@ -13,7 +13,7 @@ export function ChangeHistory({ records }: ChangeHistoryProps) {
   if (records.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-500">{t.noChanges || 'No changes yet'}</p>
+        <p className="text-gray-500">{t.noChanges || "No changes yet"}</p>
       </div>
     );
   }
@@ -21,7 +21,10 @@ export function ChangeHistory({ records }: ChangeHistoryProps) {
   return (
     <div className="space-y-4">
       {records
-        .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+        .sort(
+          (a, b) =>
+            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+        )
         .map((record) => (
           <div
             key={record.id}
@@ -30,16 +33,16 @@ export function ChangeHistory({ records }: ChangeHistoryProps) {
             <div className="flex items-start justify-between mb-2">
               <div>
                 <p className="font-medium text-gray-900">
-                  {record.field === 'training'
-                    ? t.training || 'Training'
-                    : t.brandedPacket || 'Branded Packet'}
+                  {record.field === "training"
+                    ? t.training || "Training"
+                    : t.brandedPacket || "Branded Packet"}
                 </p>
                 <p className="text-sm text-gray-600">
-                  {t.by || 'By'}: {record.user}
+                  {t.by || "By"}: {record.user}
                 </p>
               </div>
               <time className="text-sm text-gray-500">
-                {format(new Date(record.timestamp), 'PPpp', { locale: ru })}
+                {format(new Date(record.timestamp), "PPpp", { locale: ru })}
               </time>
             </div>
 
@@ -47,8 +50,8 @@ export function ChangeHistory({ records }: ChangeHistoryProps) {
               <span
                 className={`px-2 py-1 rounded text-xs font-medium ${
                   record.oldValue
-                    ? 'bg-lime-100 text-lime-900'
-                    : 'bg-orange-100 text-orange-900'
+                    ? "bg-lime-100 text-lime-900"
+                    : "bg-orange-100 text-orange-900"
                 }`}
               >
                 {record.oldValue ? t.yes : t.no}
@@ -57,8 +60,8 @@ export function ChangeHistory({ records }: ChangeHistoryProps) {
               <span
                 className={`px-2 py-1 rounded text-xs font-medium ${
                   record.newValue
-                    ? 'bg-lime-100 text-lime-900'
-                    : 'bg-orange-100 text-orange-900'
+                    ? "bg-lime-100 text-lime-900"
+                    : "bg-orange-100 text-orange-900"
                 }`}
               >
                 {record.newValue ? t.yes : t.no}

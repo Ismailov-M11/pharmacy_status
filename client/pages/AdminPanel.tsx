@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { useAuth } from '@/contexts/AuthContext';
-import { Header } from '@/components/Header';
-import { PharmacyTable } from '@/components/PharmacyTable';
-import { PharmacyDetailModal, ChangeRecord } from '@/components/PharmacyDetailModal';
-import { getPharmacyList, updatePharmacyStatus, Pharmacy } from '@/lib/api';
-import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { Header } from "@/components/Header";
+import { PharmacyTable } from "@/components/PharmacyTable";
+import {
+  PharmacyDetailModal,
+  ChangeRecord,
+} from "@/components/PharmacyDetailModal";
+import { getPharmacyList, updatePharmacyStatus, Pharmacy } from "@/lib/api";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 export default function AdminPanel() {
   const { t } = useLanguage();
@@ -16,20 +19,28 @@ export default function AdminPanel() {
   const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
   const [filteredPharmacies, setFilteredPharmacies] = useState<Pharmacy[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<boolean | null>(true);
-  const [telegramBotFilter, setTelegramBotFilter] = useState<boolean | null>(null);
-  const [brandedPacketFilter, setBrandedPacketFilter] = useState<boolean | null>(null);
+  const [telegramBotFilter, setTelegramBotFilter] = useState<boolean | null>(
+    null,
+  );
+  const [brandedPacketFilter, setBrandedPacketFilter] = useState<
+    boolean | null
+  >(null);
   const [trainingFilter, setTrainingFilter] = useState<boolean | null>(null);
-  const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(null);
+  const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(
+    null,
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [changeHistory, setChangeHistory] = useState<Record<number, ChangeRecord[]>>({});
+  const [changeHistory, setChangeHistory] = useState<
+    Record<number, ChangeRecord[]>
+  >({});
 
   useEffect(() => {
     if (authLoading) return;
 
     if (!token) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
 
@@ -43,15 +54,30 @@ export default function AdminPanel() {
         p.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (p.phone && p.phone.includes(searchQuery)) ||
         (p.lead?.phone && p.lead.phone.includes(searchQuery)) ||
-        ((p as any).landmark && (p as any).landmark.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        ((p as any).landmark &&
+          (p as any).landmark
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())) ||
         p.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.lead?.status && p.lead.status.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (p.lead?.status &&
+          p.lead.status.toLowerCase().includes(searchQuery.toLowerCase())) ||
         ((p as any).stir && (p as any).stir.includes(searchQuery)) ||
-        ((p as any).additionalPhone && (p as any).additionalPhone.includes(searchQuery)) ||
-        ((p as any).juridicalName && (p as any).juridicalName.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        ((p as any).juridicalAddress && (p as any).juridicalAddress.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        ((p as any).bankName && (p as any).bankName.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        ((p as any).bankAccount && (p as any).bankAccount.includes(searchQuery)) ||
+        ((p as any).additionalPhone &&
+          (p as any).additionalPhone.includes(searchQuery)) ||
+        ((p as any).juridicalName &&
+          (p as any).juridicalName
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())) ||
+        ((p as any).juridicalAddress &&
+          (p as any).juridicalAddress
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())) ||
+        ((p as any).bankName &&
+          (p as any).bankName
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())) ||
+        ((p as any).bankAccount &&
+          (p as any).bankAccount.includes(searchQuery)) ||
         ((p as any).mfo && (p as any).mfo.includes(searchQuery));
 
       const matchesTelegramBot =
@@ -67,30 +93,34 @@ export default function AdminPanel() {
           : (p as any).brandedPacket === brandedPacketFilter;
 
       const matchesTraining =
-        trainingFilter === null
-          ? true
-          : (p as any).training === trainingFilter;
+        trainingFilter === null ? true : (p as any).training === trainingFilter;
 
-      return matchesSearch && matchesTelegramBot && matchesBrandedPacket && matchesTraining;
+      return (
+        matchesSearch &&
+        matchesTelegramBot &&
+        matchesBrandedPacket &&
+        matchesTraining
+      );
     });
     setFilteredPharmacies(filtered);
-  }, [searchQuery, pharmacies, telegramBotFilter, brandedPacketFilter, trainingFilter]);
+  }, [
+    searchQuery,
+    pharmacies,
+    telegramBotFilter,
+    brandedPacketFilter,
+    trainingFilter,
+  ]);
 
   const fetchPharmacies = async () => {
     if (!token) return;
 
     setIsLoading(true);
     try {
-      const response = await getPharmacyList(
-        token,
-        '',
-        0,
-        activeFilter
-      );
+      const response = await getPharmacyList(token, "", 0, activeFilter);
       setPharmacies(response.payload?.list || []);
       setFilteredPharmacies(response.payload?.list || []);
     } catch (error) {
-      console.error('Failed to fetch pharmacies:', error);
+      console.error("Failed to fetch pharmacies:", error);
       toast.error(t.error);
     } finally {
       setIsLoading(false);
@@ -109,22 +139,23 @@ export default function AdminPanel() {
 
   const handleUpdateStatus = async (
     pharmacyId: number,
-    field: 'brandedPacket' | 'training',
+    field: "brandedPacket" | "training",
     value: boolean,
-    comment: string
+    comment: string,
   ) => {
     if (!token) return;
 
     try {
       await updatePharmacyStatus(token, pharmacyId, field, value);
 
-      const oldValue = selectedPharmacy?.[field as keyof Pharmacy] as boolean || false;
+      const oldValue =
+        (selectedPharmacy?.[field as keyof Pharmacy] as boolean) || false;
 
       const newRecord: ChangeRecord = {
         id: `${pharmacyId}-${Date.now()}`,
         field,
         timestamp: new Date().toISOString(),
-        user: user?.username || 'User',
+        user: user?.username || "User",
         comment,
         oldValue,
         newValue: value,
@@ -136,24 +167,20 @@ export default function AdminPanel() {
       }));
 
       setPharmacies((prev) =>
-        prev.map((p) =>
-          p.id === pharmacyId ? { ...p, [field]: value } : p
-        )
+        prev.map((p) => (p.id === pharmacyId ? { ...p, [field]: value } : p)),
       );
 
       setFilteredPharmacies((prev) =>
-        prev.map((p) =>
-          p.id === pharmacyId ? { ...p, [field]: value } : p
-        )
+        prev.map((p) => (p.id === pharmacyId ? { ...p, [field]: value } : p)),
       );
 
       setSelectedPharmacy((prev) =>
-        prev ? { ...prev, [field]: value } : null
+        prev ? { ...prev, [field]: value } : null,
       );
 
       toast.success(t.saved);
     } catch (error) {
-      console.error('Failed to update pharmacy:', error);
+      console.error("Failed to update pharmacy:", error);
       toast.error(t.error);
     }
   };
@@ -173,9 +200,7 @@ export default function AdminPanel() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">{t.adminPanel}</h1>
-          <p className="text-gray-600 mt-2">
-            {t.pharmacyName}
-          </p>
+          <p className="text-gray-600 mt-2">{t.pharmacyName}</p>
         </div>
 
         <div className="bg-white rounded-lg shadow p-4">
@@ -205,7 +230,9 @@ export default function AdminPanel() {
         onUpdateStatus={handleUpdateStatus}
         isAdmin={true}
         currentUsername={user?.username}
-        changeHistory={selectedPharmacy ? changeHistory[selectedPharmacy.id] || [] : []}
+        changeHistory={
+          selectedPharmacy ? changeHistory[selectedPharmacy.id] || [] : []
+        }
       />
     </div>
   );
