@@ -67,6 +67,16 @@ export const translations = {
 
     // Filters
     filter: 'Фильтр',
+
+    // Pharmacy Details Modal
+    pharmacyDetails: 'Детали аптеки',
+    details: 'Детали',
+    comment: 'Комментарий',
+    enterComment: 'Введите ваш комментарий...',
+    commentRequired: 'Комментарий обязателен',
+    history: 'История',
+    noChanges: 'Нет изменений',
+    by: 'От',
   },
   uz: {
     // Common
