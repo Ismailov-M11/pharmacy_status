@@ -45,6 +45,7 @@ export function PharmacyTable({
   onTrainingFilterChange,
   searchQuery = '',
   onSearchChange,
+  onPharmacyClick,
 }: PharmacyTableProps) {
   const { t } = useLanguage();
   const [updatingIds, setUpdatingIds] = useState<Set<string>>(new Set());
