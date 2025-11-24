@@ -16,7 +16,6 @@ interface PharmacyTableProps {
   pharmacies: Pharmacy[];
   isLoading: boolean;
   isAdmin?: boolean;
-  onUpdateStatus: (pharmacyId: number, field: 'brandedPacket' | 'training', value: boolean) => Promise<void>;
   activeFilter: boolean | null;
   onFilterChange: (active: boolean | null) => void;
   telegramBotFilter: boolean | null;
