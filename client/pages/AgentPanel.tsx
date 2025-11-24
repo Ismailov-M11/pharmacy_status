@@ -25,7 +25,9 @@ export default function AgentPanel() {
   >(null);
   const [trainingFilter, setTrainingFilter] = useState<boolean | null>(null);
   const [filteredPharmacies, setFilteredPharmacies] = useState<Pharmacy[]>([]);
-  const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(null);
+  const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(
+    null,
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
