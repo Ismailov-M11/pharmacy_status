@@ -312,19 +312,19 @@ export function PharmacyTable({
                       </div>
                     </td>
                     <td className="px-2 md:px-4 py-2 md:py-3 text-center">
-                      <span className={`px-2 py-1 rounded text-xs font-medium inline-block whitespace-nowrap ${fields.brandedPacket
+                      <span className={`px-2 py-1 rounded text-xs font-medium inline-block whitespace-nowrap ${(pharmacy as any).brandedPacket
                         ? 'bg-lime-100 text-lime-900'
                         : 'bg-orange-100 text-orange-900'
                         }`}>
-                        {getStatusText(fields.brandedPacket)}
+                        {getStatusText((pharmacy as any).brandedPacket)}
                       </span>
                     </td>
                     <td className="px-2 md:px-4 py-2 md:py-3 text-center">
-                      <span className={`px-2 py-1 rounded text-xs font-medium inline-block whitespace-nowrap ${fields.training
+                      <span className={`px-2 py-1 rounded text-xs font-medium inline-block whitespace-nowrap ${(pharmacy as any).training
                         ? 'bg-lime-100 text-lime-900'
                         : 'bg-orange-100 text-orange-900'
                         }`}>
-                        {getStatusText(fields.training)}
+                        {getStatusText((pharmacy as any).training)}
                       </span>
                     </td>
                     <td className="px-2 md:px-4 py-2 md:py-3">
