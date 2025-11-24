@@ -192,7 +192,7 @@ export default function AdminPanel() {
             trainingFilter={trainingFilter}
             onTrainingFilterChange={setTrainingFilter}
             searchQuery={searchQuery}
-            onSearchChange={setSearchChange}
+            onSearchChange={setSearchQuery}
             onPharmacyClick={handlePharmacyClick}
           />
         </div>
