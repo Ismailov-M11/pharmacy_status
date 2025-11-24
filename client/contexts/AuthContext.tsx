@@ -2,11 +2,18 @@ import { createContext, useContext, ReactNode, useState, useEffect } from 'react
 
 export type UserRole = 'ROLE_AGENT' | 'ROLE_ADMIN';
 
+export interface User {
+  id: number;
+  username: string;
+  phone: string;
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
   token: string | null;
   role: UserRole | null;
-  login: (token: string, role: UserRole) => void;
+  user: User | null;
+  login: (token: string, role: UserRole, user: User) => void;
   logout: () => void;
   isLoading: boolean;
 }
