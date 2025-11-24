@@ -1,0 +1,323 @@
+import { Pharmacy } from '@/lib/api';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { ChevronDown } from 'lucide-react';
+
+interface PharmacyTableProps {
+  pharmacies: Pharmacy[];
+  isLoading: boolean;
+  isAdmin?: boolean;
+  onUpdateStatus: (pharmacyId: number, field: 'brandedPacket' | 'training', value: boolean) => Promise<void>;
+  activeFilter: boolean | null;
+  onFilterChange: (active: boolean | null) => void;
+  showInactive?: boolean;
+}
+
+export function PharmacyTable({
+  pharmacies,
+  isLoading,
+  isAdmin = false,
+  onUpdateStatus,
+  activeFilter,
+  onFilterChange,
+  showInactive = false,
+}: PharmacyTableProps) {
+  const { t } = useLanguage();
+  const [updatingIds, setUpdatingIds] = useState<Set<string>>(new Set());
+  const [editableFields, setEditableFields] = useState<Record<number, { brandedPacket: boolean; training: boolean }>>({});
+
+  const handleFilterChange = (value: string) => {
+    if (value === 'true') {
+      onFilterChange(true);
+    } else if (value === 'false') {
+      onFilterChange(false);
+    } else {
+      onFilterChange(null);
+    }
+  };
+
+  // Initialize editable fields from pharmacies
+  if (editableFields && Object.keys(editableFields).length === 0 && pharmacies.length > 0) {
+    const initialized: Record<number, { brandedPacket: boolean; training: boolean }> = {};
+    pharmacies.forEach((p) => {
+      initialized[p.id] = {
+        brandedPacket: (p as any).brandedPacket ?? false,
+        training: (p as any).training ?? false,
+      };
+    });
+    if (Object.keys(initialized).length > 0) {
+      setEditableFields(initialized);
+    }
+  }
+
+  const handleStatusChange = async (
+    pharmacyId: number,
+    field: 'brandedPacket' | 'training',
+    currentValue: boolean
+  ) => {
+    const key = `${pharmacyId}-${field}`;
+    setUpdatingIds((prev) => new Set(prev).add(key));
+
+    try {
+      await onUpdateStatus(pharmacyId, field, !currentValue);
+      setEditableFields((prev) => ({
+        ...prev,
+        [pharmacyId]: {
+          ...prev[pharmacyId],
+          [field]: !currentValue,
+        },
+      }));
+    } finally {
+      setUpdatingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(key);
+        return next;
+      });
+    }
+  };
+
+  const getStatusText = (value: boolean) => {
+    return value ? t.yes : t.no;
+  };
+
+  const getTelegramBotStatus = (marketChats: any) => {
+    const hasChat = marketChats && Array.isArray(marketChats) && marketChats.length > 0;
+    return hasChat ? t.yes : t.no;
+  };
+
+  const getTelegramBotDetails = (marketChats: any) => {
+    if (!marketChats || !Array.isArray(marketChats) || marketChats.length === 0) {
+      return null;
+    }
+    return marketChats[0];
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <span className="text-gray-500">{t.loadingPharmacies}</span>
+      </div>
+    );
+  }
+
+  if (pharmacies.length === 0) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <span className="text-gray-500">{t.noData}</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="gap-2">
+              {t.filter}
+              <ChevronDown className="w-4 h-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuRadioGroup
+              value={activeFilter === true ? "true" : activeFilter === false ? "false" : "null"}
+              onValueChange={handleFilterChange}
+            >
+              <DropdownMenuRadioItem value="true">
+                {t.active}
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="false">
+                {t.inactive}
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="null">
+                {t.allPharmacies}
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs md:text-sm">
+          <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-10">
+            <tr>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                {t.number}
+              </th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                {t.code}
+              </th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[200px]">
+                {t.pharmacyName}
+              </th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[250px]">
+                {t.address}
+              </th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[200px]">
+                {t.landmark}
+              </th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                {t.pharmacyPhone}
+              </th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                {t.leadPhone}
+              </th>
+
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                {t.telegramBot}
+              </th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                {t.brandedPacket}
+              </th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                {t.training}
+              </th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                {t.status}
+              </th>
+              {isAdmin && (
+                <>
+                  <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                    {t.leadStatus}
+                  </th>
+                  <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                    {t.stir}
+                  </th>
+                  <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                    {t.additionalPhone}
+                  </th>
+                  <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[180px]">
+                    {t.juridicalName}
+                  </th>
+                  <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[200px]">
+                    {t.juridicalAddress}
+                  </th>
+                  <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[150px]">
+                    {t.bankName}
+                  </th>
+                  <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[150px]">
+                    {t.bankAccount}
+                  </th>
+                  <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                    {t.mfo}
+                  </th>
+                </>
+              )}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {pharmacies.map((pharmacy, index) => {
+              const fields = editableFields[pharmacy.id] || { brandedPacket: false, training: false };
+              const brandedPacketKey = `${pharmacy.id}-brandedPacket`;
+              const trainingKey = `${pharmacy.id}-training`;
+              const isBrandedPacketUpdating = updatingIds.has(brandedPacketKey);
+              const isTrainingUpdating = updatingIds.has(trainingKey);
+              const telegramBotDetails = getTelegramBotDetails((pharmacy as any).marketChats);
+              const hasTelegramBot = (pharmacy as any).marketChats && Array.isArray((pharmacy as any).marketChats) && (pharmacy as any).marketChats.length > 0;
+
+              return (
+                <tr key={pharmacy.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 font-medium">{index + 1}</td>
+                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 whitespace-nowrap">{pharmacy.code}</td>
+                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 font-medium text-xs md:text-sm whitespace-nowrap">{pharmacy.name}</td>
+                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-600 text-xs whitespace-nowrap">{pharmacy.address}</td>
+                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-600 text-xs whitespace-nowrap">{(pharmacy as any).landmark || '-'}</td>
+                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs whitespace-nowrap">{pharmacy.phone || '-'}</td>
+                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs whitespace-nowrap">
+                    {pharmacy.lead?.phone || '-'}
+                  </td>
+
+                  <td className="px-2 md:px-4 py-2 md:py-3">
+                    <div className="space-y-1">
+                      <div className={`font-semibold text-xs px-2 py-1 rounded inline-block whitespace-nowrap ${
+                        hasTelegramBot
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {getTelegramBotStatus((pharmacy as any).marketChats)}
+                      </div>
+                      {isAdmin && telegramBotDetails && (
+                        <div className="text-xs text-gray-500 mt-1">
+                          <div className="truncate">ID: {telegramBotDetails.id}</div>
+                          <div className="truncate">Name: {telegramBotDetails.name}</div>
+                          <div className="truncate">User: {telegramBotDetails.username}</div>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-2 md:px-4 py-2 md:py-3">
+                    <button
+                      onClick={() =>
+                        handleStatusChange(pharmacy.id, 'brandedPacket', fields.brandedPacket)
+                      }
+                      disabled={isBrandedPacketUpdating}
+                      className={`px-2 py-1 rounded text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${
+                        fields.brandedPacket
+                          ? 'bg-lime-100 text-lime-900 hover:bg-lime-200'
+                          : 'bg-orange-100 text-orange-900 hover:bg-orange-200'
+                      } ${isBrandedPacketUpdating ? 'opacity-50' : ''}`}
+                    >
+                      {isBrandedPacketUpdating ? (
+                        <span className="inline-block animate-spin">⏳</span>
+                      ) : (
+                        getStatusText(fields.brandedPacket)
+                      )}
+                    </button>
+                  </td>
+                  <td className="px-2 md:px-4 py-2 md:py-3">
+                    <button
+                      onClick={() => handleStatusChange(pharmacy.id, 'training', fields.training)}
+                      disabled={isTrainingUpdating}
+                      className={`px-2 py-1 rounded text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${
+                        fields.training
+                          ? 'bg-lime-100 text-lime-900 hover:bg-lime-200'
+                          : 'bg-orange-100 text-orange-900 hover:bg-orange-200'
+                      } ${isTrainingUpdating ? 'opacity-50' : ''}`}
+                    >
+                      {isTrainingUpdating ? (
+                        <span className="inline-block animate-spin">⏳</span>
+                      ) : (
+                        getStatusText(fields.training)
+                      )}
+                    </button>
+                  </td>
+                  <td className="px-2 md:px-4 py-2 md:py-3">
+                    <span
+                      className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap inline-block ${
+                        pharmacy.active
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : 'bg-amber-100 text-amber-800'
+                      }`}
+                    >
+                      {pharmacy.active ? t.active : t.inactive}
+                    </span>
+                  </td>
+                  {isAdmin && (
+                    <>
+                      <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs">{pharmacy.lead?.status || '-'}</td>
+                      <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs whitespace-nowrap">{(pharmacy.lead as any)?.stir || '-'}</td>
+                      <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs whitespace-nowrap">{(pharmacy.lead as any)?.additionalPhone || '-'}</td>
+                      <td className="px-2 md:px-4 py-2 md:py-3 text-gray-600 text-xs max-w-xs truncate">{(pharmacy.lead as any)?.juridicalName || '-'}</td>
+                      <td className="px-2 md:px-4 py-2 md:py-3 text-gray-600 text-xs max-w-xs truncate">{(pharmacy.lead as any)?.juridicalAddress || '-'}</td>
+                      <td className="px-2 md:px-4 py-2 md:py-3 text-gray-600 text-xs max-w-xs truncate">{(pharmacy.lead as any)?.bankName || '-'}</td>
+                      <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs font-mono whitespace-nowrap">{(pharmacy.lead as any)?.bankAccount || '-'}</td>
+                      <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs whitespace-nowrap">{(pharmacy.lead as any)?.mfo || '-'}</td>
+                    </>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
