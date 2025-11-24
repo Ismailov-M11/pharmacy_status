@@ -91,9 +91,7 @@ export function PharmacyDetailModal({
     }
   };
 
-  const pharmacyChangeHistory = changeHistory.filter(
-    (record) => (pharmacy as any).changeHistoryData?.[record.id] !== undefined
-  );
+  const pharmacyChangeHistory = changeHistory;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
