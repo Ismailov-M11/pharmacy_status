@@ -1,6 +1,13 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { ChevronDown, Globe } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 
 export function Header() {
@@ -19,7 +26,7 @@ export function Header() {
         <div className="flex items-center gap-3">
           <img src="/logo.svg" alt="Davo Delivery" className="w-12 h-12" />
           <div>
-            <div className="font-bold text-xl">
+            <div className="font-bold text-xl flex flex-col sm:flex-row sm:gap-1">
               <span className="text-purple-700">Davo</span>
               <span className="text-purple-900">Delivery</span>
             </div>
@@ -27,28 +34,21 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
-            <button
-              onClick={() => setLanguage('ru')}
-              className={`px-3 py-1.5 rounded font-medium text-sm transition-colors ${
-                language === 'ru'
-                  ? 'bg-white text-purple-700 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              RU 🇷🇺
-            </button>
-            <button
-              onClick={() => setLanguage('uz')}
-              className={`px-3 py-1.5 rounded font-medium text-sm transition-colors ${
-                language === 'uz'
-                  ? 'bg-white text-purple-700 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              UZ 🇺🇿
-            </button>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="text-gray-600 hover:text-purple-700">
+                <Globe className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setLanguage('ru')} className={language === 'ru' ? 'bg-purple-50 text-purple-700' : ''}>
+                RU 🇷🇺 Русский
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage('uz')} className={language === 'uz' ? 'bg-purple-50 text-purple-700' : ''}>
+                UZ 🇺🇿 O'zbekcha
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <Button
             onClick={handleLogout}

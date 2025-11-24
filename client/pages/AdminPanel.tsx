@@ -17,6 +17,9 @@ export default function AdminPanel() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<boolean | null>(true);
+  const [telegramBotFilter, setTelegramBotFilter] = useState<boolean | null>(null);
+  const [brandedPacketFilter, setBrandedPacketFilter] = useState<boolean | null>(null);
+  const [trainingFilter, setTrainingFilter] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (authLoading) return;
@@ -30,14 +33,33 @@ export default function AdminPanel() {
   }, [token, authLoading, navigate, activeFilter]);
 
   useEffect(() => {
-    const filtered = pharmacies.filter(
-      (p) =>
+    const filtered = pharmacies.filter((p) => {
+      const matchesSearch =
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.phone && p.phone.includes(searchQuery))
-    );
+        (p.phone && p.phone.includes(searchQuery));
+
+      const matchesTelegramBot =
+        telegramBotFilter === null
+          ? true
+          : telegramBotFilter
+            ? (p as any).marketChats && (p as any).marketChats.length > 0
+            : !(p as any).marketChats || (p as any).marketChats.length === 0;
+
+      const matchesBrandedPacket =
+        brandedPacketFilter === null
+          ? true
+          : (p as any).brandedPacket === brandedPacketFilter;
+
+      const matchesTraining =
+        trainingFilter === null
+          ? true
+          : (p as any).training === trainingFilter;
+
+      return matchesSearch && matchesTelegramBot && matchesBrandedPacket && matchesTraining;
+    });
     setFilteredPharmacies(filtered);
-  }, [searchQuery, pharmacies]);
+  }, [searchQuery, pharmacies, telegramBotFilter, brandedPacketFilter, trainingFilter]);
 
   const fetchPharmacies = async () => {
     if (!token) return;
@@ -127,6 +149,12 @@ export default function AdminPanel() {
             onUpdateStatus={handleUpdateStatus}
             activeFilter={activeFilter}
             onFilterChange={setActiveFilter}
+            telegramBotFilter={telegramBotFilter}
+            onTelegramBotFilterChange={setTelegramBotFilter}
+            brandedPacketFilter={brandedPacketFilter}
+            onBrandedPacketFilterChange={setBrandedPacketFilter}
+            trainingFilter={trainingFilter}
+            onTrainingFilterChange={setTrainingFilter}
           />
         </div>
       </main>
