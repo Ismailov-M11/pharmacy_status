@@ -157,7 +157,7 @@ export function PharmacyTable({
 
       <div className="overflow-x-auto">
         <table className="w-full text-xs md:text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-10">
+          <thead className="bg-gray-50 border-b border-gray-200 sticky top-[80px] z-40 shadow-sm">
             <tr>
               <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
                 {t.number}
@@ -299,8 +299,8 @@ export function PharmacyTable({
                   <td className="px-2 md:px-4 py-2 md:py-3 text-center">
                     <div className="space-y-1 flex flex-col items-center">
                       <div className={`font-semibold text-xs px-2 py-1 rounded inline-block whitespace-nowrap ${hasTelegramBot
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-red-100 text-red-800'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
                         }`}>
                         {getTelegramBotStatus((pharmacy as any).marketChats)}
                       </div>
@@ -320,8 +320,8 @@ export function PharmacyTable({
                       }
                       disabled={isBrandedPacketUpdating}
                       className={`px-2 py-1 rounded text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${fields.brandedPacket
-                          ? 'bg-lime-100 text-lime-900 hover:bg-lime-200'
-                          : 'bg-orange-100 text-orange-900 hover:bg-orange-200'
+                        ? 'bg-lime-100 text-lime-900 hover:bg-lime-200'
+                        : 'bg-orange-100 text-orange-900 hover:bg-orange-200'
                         } ${isBrandedPacketUpdating ? 'opacity-50' : ''}`}
                     >
                       {isBrandedPacketUpdating ? (
@@ -336,8 +336,8 @@ export function PharmacyTable({
                       onClick={() => handleStatusChange(pharmacy.id, 'training', fields.training)}
                       disabled={isTrainingUpdating}
                       className={`px-2 py-1 rounded text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${fields.training
-                          ? 'bg-lime-100 text-lime-900 hover:bg-lime-200'
-                          : 'bg-orange-100 text-orange-900 hover:bg-orange-200'
+                        ? 'bg-lime-100 text-lime-900 hover:bg-lime-200'
+                        : 'bg-orange-100 text-orange-900 hover:bg-orange-200'
                         } ${isTrainingUpdating ? 'opacity-50' : ''}`}
                     >
                       {isTrainingUpdating ? (
@@ -350,8 +350,8 @@ export function PharmacyTable({
                   <td className="px-2 md:px-4 py-2 md:py-3">
                     <span
                       className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap inline-block ${pharmacy.active
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : 'bg-amber-100 text-amber-800'
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-amber-100 text-amber-800'
                         }`}
                     >
                       {pharmacy.active ? t.active : t.inactive}

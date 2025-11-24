@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Header } from '@/components/Header';
 import { PharmacyTable } from '@/components/PharmacyTable';
 import { getPharmacyList, updatePharmacyStatus, Pharmacy } from '@/lib/api';
+import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 
 export default function AgentPanel() {
@@ -13,7 +14,12 @@ export default function AgentPanel() {
   const navigate = useNavigate();
   const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [showInactive, setShowInactive] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState<boolean | null>(true);
+  const [telegramBotFilter, setTelegramBotFilter] = useState<boolean | null>(null);
+  const [brandedPacketFilter, setBrandedPacketFilter] = useState<boolean | null>(null);
+  const [trainingFilter, setTrainingFilter] = useState<boolean | null>(null);
+  const [filteredPharmacies, setFilteredPharmacies] = useState<Pharmacy[]>([]);
 
   useEffect(() => {
     if (authLoading) return;
@@ -24,7 +30,37 @@ export default function AgentPanel() {
     }
 
     fetchPharmacies();
-  }, [token, authLoading, navigate, showInactive]);
+    fetchPharmacies();
+  }, [token, authLoading, navigate, activeFilter]);
+
+  useEffect(() => {
+    const filtered = pharmacies.filter((p) => {
+      const matchesSearch =
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (p.phone && p.phone.includes(searchQuery));
+
+      const matchesTelegramBot =
+        telegramBotFilter === null
+          ? true
+          : telegramBotFilter
+            ? (p as any).marketChats && (p as any).marketChats.length > 0
+            : !(p as any).marketChats || (p as any).marketChats.length === 0;
+
+      const matchesBrandedPacket =
+        brandedPacketFilter === null
+          ? true
+          : (p as any).brandedPacket === brandedPacketFilter;
+
+      const matchesTraining =
+        trainingFilter === null
+          ? true
+          : (p as any).training === trainingFilter;
+
+      return matchesSearch && matchesTelegramBot && matchesBrandedPacket && matchesTraining;
+    });
+    setFilteredPharmacies(filtered);
+  }, [searchQuery, pharmacies, telegramBotFilter, brandedPacketFilter, trainingFilter]);
 
   const fetchPharmacies = async () => {
     if (!token) return;
@@ -35,9 +71,10 @@ export default function AgentPanel() {
         token,
         '',
         0,
-        showInactive ? null : true
+        activeFilter
       );
       setPharmacies(response.payload?.list || []);
+      setFilteredPharmacies(response.payload?.list || []);
     } catch (error) {
       console.error('Failed to fetch pharmacies:', error);
       toast.error(t.error);
@@ -57,6 +94,12 @@ export default function AgentPanel() {
       await updatePharmacyStatus(token, pharmacyId, field, value);
 
       setPharmacies((prev) =>
+        prev.map((p) =>
+          p.id === pharmacyId ? { ...p, [field]: value } : p
+        )
+      );
+
+      setFilteredPharmacies((prev) =>
         prev.map((p) =>
           p.id === pharmacyId ? { ...p, [field]: value } : p
         )
@@ -89,14 +132,30 @@ export default function AgentPanel() {
           </p>
         </div>
 
+        <div className="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
+          <Input
+            type="text"
+            placeholder={`${t.pharmacyName} / ${t.address}...`}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full sm:max-w-md"
+          />
+        </div>
+
         <div className="bg-white rounded-lg shadow p-4">
           <PharmacyTable
-            pharmacies={pharmacies}
+            pharmacies={filteredPharmacies}
             isLoading={isLoading}
             isAdmin={false}
             onUpdateStatus={handleUpdateStatus}
-            activeFilter={showInactive ? null : true}
-            onFilterChange={setShowInactive}
+            activeFilter={activeFilter}
+            onFilterChange={setActiveFilter}
+            telegramBotFilter={telegramBotFilter}
+            onTelegramBotFilterChange={setTelegramBotFilter}
+            brandedPacketFilter={brandedPacketFilter}
+            onBrandedPacketFilterChange={setBrandedPacketFilter}
+            trainingFilter={trainingFilter}
+            onTrainingFilterChange={setTrainingFilter}
           />
         </div>
       </main>
