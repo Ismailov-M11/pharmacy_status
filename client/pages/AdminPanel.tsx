@@ -127,18 +127,8 @@ export default function AdminPanel() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">{t.adminPanel}</h1>
           <p className="text-gray-600 mt-2">
-            Manage all pharmacies and their information
+            {t.pharmacyName}
           </p>
-        </div>
-
-        <div className="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
-          <Input
-            type="text"
-            placeholder={`${t.pharmacyName} / ${t.address}...`}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full sm:max-w-md"
-          />
         </div>
 
         <div className="bg-white rounded-lg shadow p-4">
@@ -155,6 +145,8 @@ export default function AdminPanel() {
             onBrandedPacketFilterChange={setBrandedPacketFilter}
             trainingFilter={trainingFilter}
             onTrainingFilterChange={setTrainingFilter}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
           />
         </div>
       </main>

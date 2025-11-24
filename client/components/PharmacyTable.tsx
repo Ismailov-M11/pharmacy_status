@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { ChevronDown } from 'lucide-react';
 
 interface PharmacyTableProps {
@@ -24,6 +25,8 @@ interface PharmacyTableProps {
   onBrandedPacketFilterChange: (value: boolean | null) => void;
   trainingFilter: boolean | null;
   onTrainingFilterChange: (value: boolean | null) => void;
+  searchQuery?: string;
+  onSearchChange?: (value: string) => void;
 }
 
 export function PharmacyTable({
@@ -39,6 +42,8 @@ export function PharmacyTable({
   onBrandedPacketFilterChange,
   trainingFilter,
   onTrainingFilterChange,
+  searchQuery = '',
+  onSearchChange,
 }: PharmacyTableProps) {
   const { t } = useLanguage();
   const [updatingIds, setUpdatingIds] = useState<Set<string>>(new Set());
@@ -128,7 +133,14 @@ export function PharmacyTable({
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <Input
+          type="text"
+          placeholder={`${t.pharmacyName} / ${t.address}...`}
+          value={searchQuery}
+          onChange={(e) => onSearchChange?.(e.target.value)}
+          className="w-full sm:max-w-md"
+        />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="gap-2">
@@ -157,28 +169,28 @@ export function PharmacyTable({
 
       <div className="overflow-x-auto">
         <table className="w-full text-xs md:text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200 sticky top-[80px] z-40 shadow-sm">
+          <thead className="bg-gray-50 border-b border-gray-200 sticky top-[73px] z-40">
             <tr>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap w-12">
                 {t.number}
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
-                {t.code}
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[80px]">
+                <div className="line-clamp-3">{t.code}</div>
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[150px]">
-                {t.pharmacyName}
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[120px]">
+                <div className="line-clamp-3">{t.pharmacyName}</div>
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[180px]">
-                {t.address}
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[140px]">
+                <div className="line-clamp-3">{t.address}</div>
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[150px]">
-                {t.landmark}
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[120px]">
+                <div className="line-clamp-3">{t.landmark}</div>
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
-                {t.pharmacyPhone}
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[100px]">
+                <div className="line-clamp-3">{t.pharmacyPhone}</div>
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
-                {t.leadPhone}
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[100px]">
+                <div className="line-clamp-3">{t.leadPhone}</div>
               </th>
 
               <th className="px-2 md:px-4 py-2 md:py-3 text-center font-semibold text-gray-700 whitespace-nowrap min-w-max">
@@ -286,14 +298,24 @@ export function PharmacyTable({
 
               return (
                 <tr key={pharmacy.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 font-medium">{index + 1}</td>
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 whitespace-nowrap">{pharmacy.code}</td>
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 font-medium text-xs md:text-sm whitespace-nowrap">{pharmacy.name}</td>
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-600 text-xs whitespace-nowrap">{pharmacy.address}</td>
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-600 text-xs whitespace-nowrap">{(pharmacy as any).landmark || '-'}</td>
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs whitespace-nowrap">{pharmacy.phone || '-'}</td>
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-gray-900 text-xs whitespace-nowrap">
-                    {pharmacy.lead?.phone || '-'}
+                  <td className="px-2 py-2 md:py-3 text-gray-900 font-medium whitespace-nowrap">{index + 1}</td>
+                  <td className="px-2 py-2 md:py-3 text-gray-900 max-w-[80px]">
+                    <div className="line-clamp-3 text-xs">{pharmacy.code}</div>
+                  </td>
+                  <td className="px-2 py-2 md:py-3 text-gray-900 font-medium max-w-[120px]">
+                    <div className="line-clamp-3 text-xs md:text-sm">{pharmacy.name}</div>
+                  </td>
+                  <td className="px-2 py-2 md:py-3 text-gray-600 max-w-[140px]">
+                    <div className="line-clamp-3 text-xs">{pharmacy.address}</div>
+                  </td>
+                  <td className="px-2 py-2 md:py-3 text-gray-600 max-w-[120px]">
+                    <div className="line-clamp-3 text-xs">{(pharmacy as any).landmark || '-'}</div>
+                  </td>
+                  <td className="px-2 py-2 md:py-3 text-gray-900 max-w-[100px]">
+                    <div className="line-clamp-3 text-xs">{pharmacy.phone || '-'}</div>
+                  </td>
+                  <td className="px-2 py-2 md:py-3 text-gray-900 max-w-[100px]">
+                    <div className="line-clamp-3 text-xs">{pharmacy.lead?.phone || '-'}</div>
                   </td>
 
                   <td className="px-2 md:px-4 py-2 md:py-3 text-center">

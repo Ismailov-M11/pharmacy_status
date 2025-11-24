@@ -132,16 +132,6 @@ export default function AgentPanel() {
           </p>
         </div>
 
-        <div className="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
-          <Input
-            type="text"
-            placeholder={`${t.pharmacyName} / ${t.address}...`}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full sm:max-w-md"
-          />
-        </div>
-
         <div className="bg-white rounded-lg shadow p-4">
           <PharmacyTable
             pharmacies={filteredPharmacies}
@@ -156,6 +146,8 @@ export default function AgentPanel() {
             onBrandedPacketFilterChange={setBrandedPacketFilter}
             trainingFilter={trainingFilter}
             onTrainingFilterChange={setTrainingFilter}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
           />
         </div>
       </main>
