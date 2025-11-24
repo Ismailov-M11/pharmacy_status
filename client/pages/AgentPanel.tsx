@@ -143,6 +143,7 @@ export default function AgentPanel() {
             onTrainingFilterChange={setTrainingFilter}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
+            onPharmacyClick={handlePharmacyClick}
           />
         </div>
       </main>
