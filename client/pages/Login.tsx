@@ -64,8 +64,8 @@ export default function Login() {
           <div className="flex flex-col items-center mb-8">
             <img src="/logo.svg" alt="Davo Delivery" className="w-20 h-20 mb-4" />
             <h1 className="text-3xl font-bold text-center">
-              <span className="text-purple-700">Davo</span>
-              <span className="text-purple-900">Delivery</span>
+              <span className="text-purple-700">Davo </span>
+              <span className="text-purple-700">Delivery</span>
             </h1>
             <p className="text-gray-500 text-sm mt-2">Pharmacy Management System</p>
           </div>
@@ -73,21 +73,19 @@ export default function Login() {
           <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1 mb-6">
             <button
               onClick={() => setLanguage('ru')}
-              className={`flex-1 px-3 py-2 rounded font-medium text-sm transition-colors ${
-                language === 'ru'
+              className={`flex-1 px-3 py-2 rounded font-medium text-sm transition-colors ${language === 'ru'
                   ? 'bg-white text-purple-700 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
-              }`}
+                }`}
             >
               RU 🇷🇺
             </button>
             <button
               onClick={() => setLanguage('uz')}
-              className={`flex-1 px-3 py-2 rounded font-medium text-sm transition-colors ${
-                language === 'uz'
+              className={`flex-1 px-3 py-2 rounded font-medium text-sm transition-colors ${language === 'uz'
                   ? 'bg-white text-purple-700 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
-              }`}
+                }`}
             >
               UZ 🇺🇿
             </button>

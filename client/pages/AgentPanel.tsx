@@ -38,7 +38,10 @@ export default function AgentPanel() {
       const matchesSearch =
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.phone && p.phone.includes(searchQuery));
+        (p.phone && p.phone.includes(searchQuery)) ||
+        (p.lead?.phone && p.lead.phone.includes(searchQuery)) ||
+        ((p as any).landmark && (p as any).landmark.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        p.code.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesTelegramBot =
         telegramBotFilter === null

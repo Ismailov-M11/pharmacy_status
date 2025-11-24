@@ -28,7 +28,7 @@ export function Header() {
           <div>
             <div className="font-bold text-xl flex flex-col sm:flex-row sm:gap-1">
               <span className="text-purple-700">Davo</span>
-              <span className="text-purple-900">Delivery</span>
+              <span className="text-purple-700">Delivery</span>
             </div>
           </div>
         </div>

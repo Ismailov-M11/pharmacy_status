@@ -37,7 +37,18 @@ export default function AdminPanel() {
       const matchesSearch =
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.phone && p.phone.includes(searchQuery));
+        (p.phone && p.phone.includes(searchQuery)) ||
+        (p.lead?.phone && p.lead.phone.includes(searchQuery)) ||
+        ((p as any).landmark && (p as any).landmark.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        p.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (p.lead?.status && p.lead.status.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        ((p as any).stir && (p as any).stir.includes(searchQuery)) ||
+        ((p as any).additionalPhone && (p as any).additionalPhone.includes(searchQuery)) ||
+        ((p as any).juridicalName && (p as any).juridicalName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        ((p as any).juridicalAddress && (p as any).juridicalAddress.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        ((p as any).bankName && (p as any).bankName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        ((p as any).bankAccount && (p as any).bankAccount.includes(searchQuery)) ||
+        ((p as any).mfo && (p as any).mfo.includes(searchQuery));
 
       const matchesTelegramBot =
         telegramBotFilter === null
