@@ -361,38 +361,20 @@ export function PharmacyTable({
                       </div>
                     </td>
                     <td className="px-2 md:px-4 py-2 md:py-3 text-center">
-                      <button
-                        onClick={() =>
-                          handleStatusChange(pharmacy.id, 'brandedPacket', fields.brandedPacket)
-                        }
-                        disabled={isBrandedPacketUpdating}
-                        className={`px-2 py-1 rounded text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${fields.brandedPacket
-                          ? 'bg-lime-100 text-lime-900 hover:bg-lime-200'
-                          : 'bg-orange-100 text-orange-900 hover:bg-orange-200'
-                          } ${isBrandedPacketUpdating ? 'opacity-50' : ''}`}
-                      >
-                        {isBrandedPacketUpdating ? (
-                          <span className="inline-block animate-spin">⏳</span>
-                        ) : (
-                          getStatusText(fields.brandedPacket)
-                        )}
-                      </button>
+                      <span className={`px-2 py-1 rounded text-xs font-medium inline-block whitespace-nowrap ${fields.brandedPacket
+                        ? 'bg-lime-100 text-lime-900'
+                        : 'bg-orange-100 text-orange-900'
+                        }`}>
+                        {getStatusText(fields.brandedPacket)}
+                      </span>
                     </td>
                     <td className="px-2 md:px-4 py-2 md:py-3 text-center">
-                      <button
-                        onClick={() => handleStatusChange(pharmacy.id, 'training', fields.training)}
-                        disabled={isTrainingUpdating}
-                        className={`px-2 py-1 rounded text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${fields.training
-                          ? 'bg-lime-100 text-lime-900 hover:bg-lime-200'
-                          : 'bg-orange-100 text-orange-900 hover:bg-orange-200'
-                          } ${isTrainingUpdating ? 'opacity-50' : ''}`}
-                      >
-                        {isTrainingUpdating ? (
-                          <span className="inline-block animate-spin">⏳</span>
-                        ) : (
-                          getStatusText(fields.training)
-                        )}
-                      </button>
+                      <span className={`px-2 py-1 rounded text-xs font-medium inline-block whitespace-nowrap ${fields.training
+                        ? 'bg-lime-100 text-lime-900'
+                        : 'bg-orange-100 text-orange-900'
+                        }`}>
+                        {getStatusText(fields.training)}
+                      </span>
                     </td>
                     <td className="px-2 md:px-4 py-2 md:py-3">
                       <span
