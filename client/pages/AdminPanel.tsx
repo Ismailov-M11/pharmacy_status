@@ -97,15 +97,43 @@ export default function AdminPanel() {
     }
   };
 
+  const handlePharmacyClick = (pharmacy: Pharmacy) => {
+    setSelectedPharmacy(pharmacy);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedPharmacy(null);
+  };
+
   const handleUpdateStatus = async (
     pharmacyId: number,
     field: 'brandedPacket' | 'training',
-    value: boolean
+    value: boolean,
+    comment: string
   ) => {
     if (!token) return;
 
     try {
       await updatePharmacyStatus(token, pharmacyId, field, value);
+
+      const oldValue = selectedPharmacy?.[field as keyof Pharmacy] as boolean || false;
+
+      const newRecord: ChangeRecord = {
+        id: `${pharmacyId}-${Date.now()}`,
+        field,
+        timestamp: new Date().toISOString(),
+        user: user?.username || 'User',
+        comment,
+        oldValue,
+        newValue: value,
+      };
+
+      setChangeHistory((prev) => ({
+        ...prev,
+        [pharmacyId]: [...(prev[pharmacyId] || []), newRecord],
+      }));
 
       setPharmacies((prev) =>
         prev.map((p) =>
@@ -117,6 +145,10 @@ export default function AdminPanel() {
         prev.map((p) =>
           p.id === pharmacyId ? { ...p, [field]: value } : p
         )
+      );
+
+      setSelectedPharmacy((prev) =>
+        prev ? { ...prev, [field]: value } : null
       );
 
       toast.success(t.saved);
