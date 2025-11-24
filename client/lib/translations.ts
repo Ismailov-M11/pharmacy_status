@@ -144,6 +144,16 @@ export const translations = {
 
     // Filters
     filter: 'Filtr',
+
+    // Pharmacy Details Modal
+    pharmacyDetails: 'Dorixona tafsilotlari',
+    details: 'Tafsilotlar',
+    comment: 'Izoh',
+    enterComment: 'Izohingizni kiriting...',
+    commentRequired: 'Izoh kerak',
+    history: 'Tarix',
+    noChanges: 'O\'zgarishlar yo\'q',
+    by: 'Tomonidan',
   },
 };
 
