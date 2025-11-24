@@ -100,6 +100,16 @@ export default function AgentPanel() {
     }
   };
 
+  const handlePharmacyClick = (pharmacy: Pharmacy) => {
+    setSelectedPharmacy(pharmacy);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedPharmacy(null);
+  };
+
   if (authLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
