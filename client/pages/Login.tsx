@@ -38,8 +38,13 @@ export default function Login() {
         const role = response.payload.user.authorities[0].authority as
           | 'ROLE_AGENT'
           | 'ROLE_ADMIN';
+        const userData = {
+          id: response.payload.user.id,
+          username: response.payload.user.username,
+          phone: response.payload.user.phone,
+        };
 
-        login(token, role);
+        login(token, role, userData);
 
         if (role === 'ROLE_ADMIN') {
           navigate('/admin');
