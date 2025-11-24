@@ -57,46 +57,6 @@ export function PharmacyTable({
     }
   };
 
-  // Initialize editable fields from pharmacies
-  if (editableFields && Object.keys(editableFields).length === 0 && pharmacies.length > 0) {
-    const initialized: Record<number, { brandedPacket: boolean; training: boolean }> = {};
-    pharmacies.forEach((p) => {
-      initialized[p.id] = {
-        brandedPacket: (p as any).brandedPacket ?? false,
-        training: (p as any).training ?? false,
-      };
-    });
-    if (Object.keys(initialized).length > 0) {
-      setEditableFields(initialized);
-    }
-  }
-
-  const handleStatusChange = async (
-    pharmacyId: number,
-    field: 'brandedPacket' | 'training',
-    currentValue: boolean
-  ) => {
-    const key = `${pharmacyId}-${field}`;
-    setUpdatingIds((prev) => new Set(prev).add(key));
-
-    try {
-      await onUpdateStatus(pharmacyId, field, !currentValue);
-      setEditableFields((prev) => ({
-        ...prev,
-        [pharmacyId]: {
-          ...prev[pharmacyId],
-          [field]: !currentValue,
-        },
-      }));
-    } finally {
-      setUpdatingIds((prev) => {
-        const next = new Set(prev);
-        next.delete(key);
-        return next;
-      });
-    }
-  };
-
   const getStatusText = (value: boolean) => {
     return value ? t.yes : t.no;
   };
