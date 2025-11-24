@@ -194,9 +194,20 @@ export default function AdminPanel() {
             onTrainingFilterChange={setTrainingFilter}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
+            onPharmacyClick={handlePharmacyClick}
           />
         </div>
       </main>
+
+      <PharmacyDetailModal
+        pharmacy={selectedPharmacy}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onUpdateStatus={handleUpdateStatus}
+        isAdmin={true}
+        currentUsername={user?.username}
+        changeHistory={selectedPharmacy ? changeHistory[selectedPharmacy.id] || [] : []}
+      />
     </div>
   );
 }
