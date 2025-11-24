@@ -4,6 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Header } from "@/components/Header";
 import { PharmacyTable } from "@/components/PharmacyTable";
+import { PharmacyDetailModal } from "@/components/PharmacyDetailModal";
 import { getPharmacyList, Pharmacy } from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
