@@ -168,29 +168,29 @@ export function PharmacyTable({
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-xs md:text-sm">
+        <table className="w-full text-xs md:text-sm table-fixed">
           <thead className="bg-gray-50 border-b border-gray-200 sticky top-[73px] z-40">
             <tr>
-              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap w-12">
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap" style={{ width: '50px' }}>
                 {t.number}
               </th>
-              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[80px]">
-                <div className="line-clamp-3">{t.code}</div>
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700" style={{ width: '100px', minWidth: '100px' }}>
+                <div className="break-words">{t.code}</div>
               </th>
-              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[120px]">
-                <div className="line-clamp-3">{t.pharmacyName}</div>
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700" style={{ width: '150px', minWidth: '150px' }}>
+                <div className="break-words">{t.pharmacyName}</div>
               </th>
-              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[140px]">
-                <div className="line-clamp-3">{t.address}</div>
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700" style={{ width: '180px', minWidth: '180px' }}>
+                <div className="break-words">{t.address}</div>
               </th>
-              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[120px]">
-                <div className="line-clamp-3">{t.landmark}</div>
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700" style={{ width: '150px', minWidth: '150px' }}>
+                <div className="break-words">{t.landmark}</div>
               </th>
-              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[100px]">
-                <div className="line-clamp-3">{t.pharmacyPhone}</div>
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700" style={{ width: '120px', minWidth: '120px' }}>
+                <div className="break-words">{t.pharmacyPhone}</div>
               </th>
-              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 max-w-[100px]">
-                <div className="line-clamp-3">{t.leadPhone}</div>
+              <th className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700" style={{ width: '120px', minWidth: '120px' }}>
+                <div className="break-words">{t.leadPhone}</div>
               </th>
 
               <th className="px-2 md:px-4 py-2 md:py-3 text-center font-semibold text-gray-700 whitespace-nowrap min-w-max">
@@ -297,25 +297,37 @@ export function PharmacyTable({
               const hasTelegramBot = (pharmacy as any).marketChats && Array.isArray((pharmacy as any).marketChats) && (pharmacy as any).marketChats.length > 0;
 
               return (
-                <tr key={pharmacy.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-2 py-2 md:py-3 text-gray-900 font-medium whitespace-nowrap">{index + 1}</td>
-                  <td className="px-2 py-2 md:py-3 text-gray-900 max-w-[80px]">
-                    <div className="line-clamp-3 text-xs">{pharmacy.code}</div>
+                <tr key={pharmacy.id} className="hover:bg-gray-50 transition-colors" style={{ height: '80px' }}>
+                  <td className="px-2 py-2 md:py-3 text-gray-900 font-medium whitespace-nowrap align-top">{index + 1}</td>
+                  <td className="px-2 py-2 md:py-3 text-gray-900 align-top">
+                    <div className="break-words overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', lineHeight: '1.4em', height: '4.2em' }}>
+                      {pharmacy.code}
+                    </div>
                   </td>
-                  <td className="px-2 py-2 md:py-3 text-gray-900 font-medium max-w-[120px]">
-                    <div className="line-clamp-3 text-xs md:text-sm">{pharmacy.name}</div>
+                  <td className="px-2 py-2 md:py-3 text-gray-900 font-medium align-top">
+                    <div className="break-words overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', lineHeight: '1.4em', height: '4.2em' }}>
+                      {pharmacy.name}
+                    </div>
                   </td>
-                  <td className="px-2 py-2 md:py-3 text-gray-600 max-w-[140px]">
-                    <div className="line-clamp-3 text-xs">{pharmacy.address}</div>
+                  <td className="px-2 py-2 md:py-3 text-gray-600 align-top">
+                    <div className="break-words overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', lineHeight: '1.4em', height: '4.2em' }}>
+                      {pharmacy.address}
+                    </div>
                   </td>
-                  <td className="px-2 py-2 md:py-3 text-gray-600 max-w-[120px]">
-                    <div className="line-clamp-3 text-xs">{(pharmacy as any).landmark || '-'}</div>
+                  <td className="px-2 py-2 md:py-3 text-gray-600 align-top">
+                    <div className="break-words overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', lineHeight: '1.4em', height: '4.2em' }}>
+                      {(pharmacy as any).landmark || '-'}
+                    </div>
                   </td>
-                  <td className="px-2 py-2 md:py-3 text-gray-900 max-w-[100px]">
-                    <div className="line-clamp-3 text-xs">{pharmacy.phone || '-'}</div>
+                  <td className="px-2 py-2 md:py-3 text-gray-900 align-top">
+                    <div className="break-words overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', lineHeight: '1.4em', height: '4.2em' }}>
+                      {pharmacy.phone || '-'}
+                    </div>
                   </td>
-                  <td className="px-2 py-2 md:py-3 text-gray-900 max-w-[100px]">
-                    <div className="line-clamp-3 text-xs">{pharmacy.lead?.phone || '-'}</div>
+                  <td className="px-2 py-2 md:py-3 text-gray-900 align-top">
+                    <div className="break-words overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', lineHeight: '1.4em', height: '4.2em' }}>
+                      {pharmacy.lead?.phone || '-'}
+                    </div>
                   </td>
 
                   <td className="px-2 md:px-4 py-2 md:py-3 text-center">
