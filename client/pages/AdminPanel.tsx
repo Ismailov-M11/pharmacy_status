@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 
 export default function AdminPanel() {
   const { t } = useLanguage();
-  const { token, isLoading: authLoading } = useAuth();
+  const { token, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
   const [filteredPharmacies, setFilteredPharmacies] = useState<Pharmacy[]>([]);
@@ -21,6 +21,9 @@ export default function AdminPanel() {
   const [telegramBotFilter, setTelegramBotFilter] = useState<boolean | null>(null);
   const [brandedPacketFilter, setBrandedPacketFilter] = useState<boolean | null>(null);
   const [trainingFilter, setTrainingFilter] = useState<boolean | null>(null);
+  const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [changeHistory, setChangeHistory] = useState<Record<number, ChangeRecord[]>>({});
 
   useEffect(() => {
     if (authLoading) return;
