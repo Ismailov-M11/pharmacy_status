@@ -197,19 +197,19 @@ export function PharmacyDetailModal({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   {t.pharmacyName || "Pharmacy Name"}
                 </label>
-                <div className="p-2 bg-gray-50 rounded border border-gray-200">
+                <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm break-words">
                   {pharmacy.name}
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   {t.address || "Address"}
                 </label>
-                <div className="p-2 bg-gray-50 rounded border border-gray-200">
+                <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm break-words">
                   {pharmacy.address}
                 </div>
               </div>
