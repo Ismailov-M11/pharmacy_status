@@ -183,7 +183,6 @@ export default function AdminPanel() {
             pharmacies={filteredPharmacies}
             isLoading={isLoading}
             isAdmin={true}
-            onUpdateStatus={handleUpdateStatus}
             activeFilter={activeFilter}
             onFilterChange={setActiveFilter}
             telegramBotFilter={telegramBotFilter}
@@ -193,7 +192,7 @@ export default function AdminPanel() {
             trainingFilter={trainingFilter}
             onTrainingFilterChange={setTrainingFilter}
             searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
+            onSearchChange={setSearchChange}
             onPharmacyClick={handlePharmacyClick}
           />
         </div>
