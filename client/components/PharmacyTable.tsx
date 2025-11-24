@@ -27,6 +27,7 @@ interface PharmacyTableProps {
   onTrainingFilterChange: (value: boolean | null) => void;
   searchQuery?: string;
   onSearchChange?: (value: string) => void;
+  onPharmacyClick?: (pharmacy: Pharmacy) => void;
 }
 
 export function PharmacyTable({
