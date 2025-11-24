@@ -265,11 +265,6 @@ export function PharmacyTable({
               </tr>
             ) : (
               pharmacies.map((pharmacy, index) => {
-                const fields = editableFields[pharmacy.id] || { brandedPacket: false, training: false };
-                const brandedPacketKey = `${pharmacy.id}-brandedPacket`;
-                const trainingKey = `${pharmacy.id}-training`;
-                const isBrandedPacketUpdating = updatingIds.has(brandedPacketKey);
-                const isTrainingUpdating = updatingIds.has(trainingKey);
                 const telegramBotDetails = getTelegramBotDetails((pharmacy as any).marketChats);
                 const hasTelegramBot = (pharmacy as any).marketChats && Array.isArray((pharmacy as any).marketChats) && (pharmacy as any).marketChats.length > 0;
 
