@@ -112,7 +112,6 @@ export default function AgentPanel() {
             pharmacies={filteredPharmacies}
             isLoading={isLoading}
             isAdmin={false}
-            onUpdateStatus={handleUpdateStatus}
             activeFilter={activeFilter}
             onFilterChange={setActiveFilter}
             telegramBotFilter={telegramBotFilter}
