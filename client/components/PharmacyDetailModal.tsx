@@ -97,20 +97,20 @@ export function PharmacyDetailModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto sm:w-full p-4 sm:p-6">
         <DialogHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <DialogTitle>
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex-1 min-w-0">
+              <DialogTitle className="break-words text-base sm:text-lg">
                 {t.pharmacyDetails || "Pharmacy Details"}
               </DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="break-words text-xs sm:text-sm">
                 {t.code || "Code"}: {pharmacy.code}
               </DialogDescription>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-gray-500 hover:text-gray-700 flex-shrink-0"
             >
               <X className="w-5 h-5" />
             </button>
@@ -118,73 +118,71 @@ export function PharmacyDetailModal({
         </DialogHeader>
 
         <div className="space-y-4">
-          {/* Tabs */}
-          <div className="flex gap-2 border-b">
-            <button
-              onClick={() => setActiveTab("details")}
-              className={`px-4 py-2 font-medium border-b-2 transition-colors ${
-                activeTab === "details"
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-600 hover:text-gray-900"
-              }`}
-            >
-              {t.details || "Details"}
-            </button>
-            {isAdmin && (
-              <>
-                <button
-                  onClick={() => setActiveTab("training")}
-                  className={`px-4 py-2 font-medium border-b-2 transition-colors ${
-                    activeTab === "training"
-                      ? "border-blue-500 text-blue-600"
-                      : "border-transparent text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  {t.training || "Training"}
-                </button>
-                <button
-                  onClick={() => setActiveTab("package")}
-                  className={`px-4 py-2 font-medium border-b-2 transition-colors ${
-                    activeTab === "package"
-                      ? "border-blue-500 text-blue-600"
-                      : "border-transparent text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  {t.brandedPacket || "Branded Packet"}
-                </button>
-                <button
-                  onClick={() => setActiveTab("history")}
-                  className={`px-4 py-2 font-medium border-b-2 transition-colors ${
-                    activeTab === "history"
-                      ? "border-blue-500 text-blue-600"
-                      : "border-transparent text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  {t.history || "History"}
-                </button>
-              </>
-            )}
-          </div>
+          {/* Tabs - only show for admin */}
+          {isAdmin && (
+            <div className="flex gap-1 border-b overflow-x-auto">
+              <button
+                onClick={() => setActiveTab("details")}
+                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${
+                  activeTab === "details"
+                    ? "border-blue-500 text-blue-600"
+                    : "border-transparent text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                {t.details || "Details"}
+              </button>
+              <button
+                onClick={() => setActiveTab("training")}
+                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${
+                  activeTab === "training"
+                    ? "border-blue-500 text-blue-600"
+                    : "border-transparent text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                {t.training || "Training"}
+              </button>
+              <button
+                onClick={() => setActiveTab("package")}
+                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${
+                  activeTab === "package"
+                    ? "border-blue-500 text-blue-600"
+                    : "border-transparent text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                {t.brandedPacket || "Branded Packet"}
+              </button>
+              <button
+                onClick={() => setActiveTab("history")}
+                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${
+                  activeTab === "history"
+                    ? "border-blue-500 text-blue-600"
+                    : "border-transparent text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                {t.history || "History"}
+              </button>
+            </div>
+          )}
 
           {/* Details Tab */}
           {activeTab === "details" && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                     {t.code || "Code"}
                   </label>
-                  <div className="p-2 bg-gray-50 rounded border border-gray-200">
+                  <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm break-words">
                     {pharmacy.code}
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                     {t.status || "Status"}
                   </label>
                   <div className="p-2 bg-gray-50 rounded border border-gray-200">
                     <span
-                      className={`px-2 py-1 rounded text-xs font-medium ${
+                      className={`px-2 py-1 rounded text-xs font-medium inline-block ${
                         pharmacy.active
                           ? "bg-emerald-100 text-emerald-800"
                           : "bg-amber-100 text-amber-800"
@@ -197,19 +195,19 @@ export function PharmacyDetailModal({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   {t.pharmacyName || "Pharmacy Name"}
                 </label>
-                <div className="p-2 bg-gray-50 rounded border border-gray-200">
+                <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm break-words">
                   {pharmacy.name}
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   {t.address || "Address"}
                 </label>
-                <div className="p-2 bg-gray-50 rounded border border-gray-200">
+                <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm break-words">
                   {pharmacy.address}
                 </div>
               </div>

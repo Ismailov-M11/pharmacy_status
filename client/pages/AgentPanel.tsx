@@ -4,6 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Header } from "@/components/Header";
 import { PharmacyTable } from "@/components/PharmacyTable";
+import { PharmacyDetailModal } from "@/components/PharmacyDetailModal";
 import { getPharmacyList, Pharmacy } from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -24,6 +25,10 @@ export default function AgentPanel() {
   >(null);
   const [trainingFilter, setTrainingFilter] = useState<boolean | null>(null);
   const [filteredPharmacies, setFilteredPharmacies] = useState<Pharmacy[]>([]);
+  const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(
+    null,
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (authLoading) return;
@@ -97,6 +102,16 @@ export default function AgentPanel() {
     }
   };
 
+  const handlePharmacyClick = (pharmacy: Pharmacy) => {
+    setSelectedPharmacy(pharmacy);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedPharmacy(null);
+  };
+
   if (authLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -130,6 +145,7 @@ export default function AgentPanel() {
             onTrainingFilterChange={setTrainingFilter}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
+            onPharmacyClick={handlePharmacyClick}
           />
         </div>
       </main>
