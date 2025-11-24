@@ -134,7 +134,7 @@ export function PharmacyDetailModal({
               <>
                 <button
                   onClick={() => setActiveTab("training")}
-                  className={`px-4 py-2 font-medium border-b-2 transition-colors ${
+                  className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${
                     activeTab === "training"
                       ? "border-blue-500 text-blue-600"
                       : "border-transparent text-gray-600 hover:text-gray-900"
@@ -144,7 +144,7 @@ export function PharmacyDetailModal({
                 </button>
                 <button
                   onClick={() => setActiveTab("package")}
-                  className={`px-4 py-2 font-medium border-b-2 transition-colors ${
+                  className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${
                     activeTab === "package"
                       ? "border-blue-500 text-blue-600"
                       : "border-transparent text-gray-600 hover:text-gray-900"
@@ -154,7 +154,7 @@ export function PharmacyDetailModal({
                 </button>
                 <button
                   onClick={() => setActiveTab("history")}
-                  className={`px-4 py-2 font-medium border-b-2 transition-colors ${
+                  className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${
                     activeTab === "history"
                       ? "border-blue-500 text-blue-600"
                       : "border-transparent text-gray-600 hover:text-gray-900"
