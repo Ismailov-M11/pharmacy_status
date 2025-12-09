@@ -59,6 +59,9 @@ export const translations = {
     save_action: "Сохранить",
     cancel: "Отменить",
     saved: "Сохранено успешно",
+    changeStatus: "Изменить статус",
+    currentStatus: "Текущий статус",
+    update: "Обновить",
 
     // Loading and Empty States
     loading: "Загрузка...",
@@ -136,6 +139,9 @@ export const translations = {
     save_action: "Saqlash",
     cancel: "Bekor qilish",
     saved: "Muvaffaqiyatli saqlandi",
+    changeStatus: "Holatni o'zgartirish",
+    currentStatus: "Joriy holat",
+    update: "Yangilash",
 
     // Loading and Empty States
     loading: "Yuklanmoqda...",

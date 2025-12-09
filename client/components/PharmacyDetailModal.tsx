@@ -14,6 +14,13 @@ import {
 import { toast } from "sonner";
 import { ChangeHistory } from "./ChangeHistory";
 import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { X } from "lucide-react";
 
@@ -374,15 +381,26 @@ export function PharmacyDetailModal({
                   <Label className="text-sm sm:text-base font-medium">
                     {t.changeStatus || "Change Status"}
                   </Label>
-                  <p className="text-xs sm:text-sm text-gray-500">
-                    {(pendingTraining ?? (pharmacy as any).training) ? t.yes : t.no}
-                  </p>
                 </div>
-                <Switch
-                  checked={pendingTraining ?? (pharmacy as any).training}
-                  onCheckedChange={setPendingTraining}
-                  disabled={isUpdating}
-                />
+                <Select
+                  value={
+                    String(pendingTraining ?? (pharmacy as any).training)
+                  }
+                  onValueChange={(value) => setPendingTraining(value === "true")}
+                >
+                  <SelectTrigger
+                    className={`w-32 border-0 focus:ring-0 text-white font-medium ${(pendingTraining ?? (pharmacy as any).training)
+                        ? "bg-green-600 hover:bg-green-700"
+                        : "bg-red-600 hover:bg-red-700"
+                      }`}
+                  >
+                    <SelectValue placeholder={t.status || "Status"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="true">{t.yes || "YES"}</SelectItem>
+                    <SelectItem value="false">{t.no || "NO"}</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>
@@ -430,15 +448,26 @@ export function PharmacyDetailModal({
                   <Label className="text-sm sm:text-base font-medium">
                     {t.changeStatus || "Change Status"}
                   </Label>
-                  <p className="text-xs sm:text-sm text-gray-500">
-                    {(pendingPacket ?? (pharmacy as any).brandedPacket) ? t.yes : t.no}
-                  </p>
                 </div>
-                <Switch
-                  checked={pendingPacket ?? (pharmacy as any).brandedPacket}
-                  onCheckedChange={setPendingPacket}
-                  disabled={isUpdating}
-                />
+                <Select
+                  value={
+                    String(pendingPacket ?? (pharmacy as any).brandedPacket)
+                  }
+                  onValueChange={(value) => setPendingPacket(value === "true")}
+                >
+                  <SelectTrigger
+                    className={`w-32 border-0 focus:ring-0 text-white font-medium ${(pendingPacket ?? (pharmacy as any).brandedPacket)
+                        ? "bg-green-600 hover:bg-green-700"
+                        : "bg-red-600 hover:bg-red-700"
+                      }`}
+                  >
+                    <SelectValue placeholder={t.status || "Status"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="true">{t.yes || "YES"}</SelectItem>
+                    <SelectItem value="false">{t.no || "NO"}</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>
