@@ -110,7 +110,7 @@ export function PharmacyTable({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 h-full flex flex-col p-4">
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <Input
           type="text"
@@ -151,9 +151,9 @@ export function PharmacyTable({
         </DropdownMenu>
       </div>
 
-      <div className="border rounded-md bg-white shadow-sm">
+      <div className="flex-1 overflow-auto bg-white min-h-0">
         <table className="w-full text-xs md:text-sm relative">
-          <thead className="bg-gray-50 border-b border-gray-200 sticky top-[82px] z-40 bg-white shadow-sm">
+          <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-40 bg-white shadow-sm">
             <tr>
               <th
                 className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap"
