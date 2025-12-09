@@ -151,9 +151,9 @@ export function PharmacyTable({
         </DropdownMenu>
       </div>
 
-      <div className="overflow-auto h-[calc(100vh-250px)] min-h-[400px] border rounded-md">
+      <div className="border rounded-md">
         <table className="w-full text-xs md:text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-40 bg-white">
+          <thead className="bg-gray-50 border-b border-gray-200 sticky top-[81px] z-40 bg-white shadow-sm">
             <tr>
               <th
                 className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap"
