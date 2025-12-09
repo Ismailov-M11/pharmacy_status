@@ -229,10 +229,16 @@ export function PharmacyTable({
                       <DropdownMenuRadioItem value="null">
                         {t.allPharmacies}
                       </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="true">
+                      <DropdownMenuRadioItem
+                        value="true"
+                        className="bg-emerald-100 text-emerald-800 focus:bg-emerald-200 focus:text-emerald-900 m-1 cursor-pointer"
+                      >
                         {t.yes}
                       </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="false">
+                      <DropdownMenuRadioItem
+                        value="false"
+                        className="bg-red-100 text-red-800 focus:bg-red-200 focus:text-red-900 m-1 cursor-pointer"
+                      >
                         {t.no}
                       </DropdownMenuRadioItem>
                     </DropdownMenuRadioGroup>
@@ -267,10 +273,16 @@ export function PharmacyTable({
                       <DropdownMenuRadioItem value="null">
                         {t.allPharmacies}
                       </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="true">
+                      <DropdownMenuRadioItem
+                        value="true"
+                        className="bg-emerald-100 text-emerald-800 focus:bg-emerald-200 focus:text-emerald-900 m-1 cursor-pointer"
+                      >
                         {t.yes}
                       </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="false">
+                      <DropdownMenuRadioItem
+                        value="false"
+                        className="bg-red-100 text-red-800 focus:bg-red-200 focus:text-red-900 m-1 cursor-pointer"
+                      >
                         {t.no}
                       </DropdownMenuRadioItem>
                     </DropdownMenuRadioGroup>
