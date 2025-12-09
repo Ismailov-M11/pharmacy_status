@@ -123,41 +123,37 @@ export function PharmacyDetailModal({
             <div className="flex gap-1 border-b overflow-x-auto">
               <button
                 onClick={() => setActiveTab("details")}
-                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${
-                  activeTab === "details"
+                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "details"
                     ? "border-blue-500 text-blue-600"
                     : "border-transparent text-gray-600 hover:text-gray-900"
-                }`}
+                  }`}
               >
                 {t.details || "Details"}
               </button>
               <button
                 onClick={() => setActiveTab("training")}
-                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${
-                  activeTab === "training"
+                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "training"
                     ? "border-blue-500 text-blue-600"
                     : "border-transparent text-gray-600 hover:text-gray-900"
-                }`}
+                  }`}
               >
                 {t.training || "Training"}
               </button>
               <button
                 onClick={() => setActiveTab("package")}
-                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${
-                  activeTab === "package"
+                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "package"
                     ? "border-blue-500 text-blue-600"
                     : "border-transparent text-gray-600 hover:text-gray-900"
-                }`}
+                  }`}
               >
                 {t.brandedPacket || "Branded Packet"}
               </button>
               <button
                 onClick={() => setActiveTab("history")}
-                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${
-                  activeTab === "history"
+                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "history"
                     ? "border-blue-500 text-blue-600"
                     : "border-transparent text-gray-600 hover:text-gray-900"
-                }`}
+                  }`}
               >
                 {t.history || "History"}
               </button>
@@ -182,11 +178,10 @@ export function PharmacyDetailModal({
                   </label>
                   <div className="p-2 bg-gray-50 rounded border border-gray-200">
                     <span
-                      className={`px-2 py-1 rounded text-xs font-medium inline-block ${
-                        pharmacy.active
+                      className={`px-2 py-1 rounded text-xs font-medium inline-block ${pharmacy.active
                           ? "bg-emerald-100 text-emerald-800"
                           : "bg-amber-100 text-amber-800"
-                      }`}
+                        }`}
                     >
                       {pharmacy.active ? t.active : t.inactive}
                     </span>
@@ -238,6 +233,42 @@ export function PharmacyDetailModal({
                   </label>
                   <div className="p-2 bg-gray-50 rounded border border-gray-200">
                     {pharmacy.lead?.phone || "-"}
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2">
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                    {t.telegramBot || "Telegram Bot"}
+                  </label>
+                  <div className={`p-2 rounded border border-gray-200 text-center ${(pharmacy as any).marketChats?.length > 0
+                      ? "bg-green-100 text-green-800 border-green-200"
+                      : "bg-red-100 text-red-800 border-red-200"
+                    }`}>
+                    {(pharmacy as any).marketChats?.length > 0 ? t.yes : t.no}
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                    {t.brandedPacket || "Branded Packet"}
+                  </label>
+                  <div className={`p-2 rounded border border-gray-200 text-center ${(pharmacy as any).brandedPacket
+                      ? "bg-lime-100 text-lime-900 border-lime-200"
+                      : "bg-orange-100 text-orange-900 border-orange-200"
+                    }`}>
+                    {(pharmacy as any).brandedPacket ? t.yes : t.no}
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                    {t.training || "Training"}
+                  </label>
+                  <div className={`p-2 rounded border border-gray-200 text-center ${(pharmacy as any).training
+                      ? "bg-lime-100 text-lime-900 border-lime-200"
+                      : "bg-orange-100 text-orange-900 border-orange-200"
+                    }`}>
+                    {(pharmacy as any).training ? t.yes : t.no}
                   </div>
                 </div>
               </div>
@@ -330,11 +361,10 @@ export function PharmacyDetailModal({
                   {t.currentStatus || "Current Status"}
                 </label>
                 <span
-                  className={`px-3 py-1 rounded text-sm font-medium inline-block ${
-                    (pharmacy as any).training
+                  className={`px-3 py-1 rounded text-sm font-medium inline-block ${(pharmacy as any).training
                       ? "bg-lime-100 text-lime-900"
                       : "bg-orange-100 text-orange-900"
-                  }`}
+                    }`}
                 >
                   {(pharmacy as any).training ? t.yes : t.no}
                 </span>
@@ -399,11 +429,10 @@ export function PharmacyDetailModal({
                   {t.currentStatus || "Current Status"}
                 </label>
                 <span
-                  className={`px-3 py-1 rounded text-sm font-medium inline-block ${
-                    (pharmacy as any).brandedPacket
+                  className={`px-3 py-1 rounded text-sm font-medium inline-block ${(pharmacy as any).brandedPacket
                       ? "bg-lime-100 text-lime-900"
                       : "bg-orange-100 text-orange-900"
-                  }`}
+                    }`}
                 >
                   {(pharmacy as any).brandedPacket ? t.yes : t.no}
                 </span>
