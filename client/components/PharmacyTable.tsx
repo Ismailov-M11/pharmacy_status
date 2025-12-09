@@ -281,13 +281,13 @@ export function PharmacyTable({
                       </DropdownMenuRadioItem>
                       <DropdownMenuRadioItem
                         value="true"
-                        className="bg-lime-100 text-lime-900 focus:bg-lime-200 focus:text-lime-900 m-1 cursor-pointer"
+                        className="bg-emerald-100 text-emerald-800 focus:bg-emerald-200 focus:text-emerald-900 m-1 cursor-pointer"
                       >
                         {t.yes}
                       </DropdownMenuRadioItem>
                       <DropdownMenuRadioItem
                         value="false"
-                        className="bg-orange-100 text-orange-900 focus:bg-orange-200 focus:text-orange-900 m-1 cursor-pointer"
+                        className="bg-red-100 text-red-800 focus:bg-red-200 focus:text-red-900 m-1 cursor-pointer"
                       >
                         {t.no}
                       </DropdownMenuRadioItem>
@@ -325,13 +325,13 @@ export function PharmacyTable({
                       </DropdownMenuRadioItem>
                       <DropdownMenuRadioItem
                         value="true"
-                        className="bg-lime-100 text-lime-900 focus:bg-lime-200 focus:text-lime-900 m-1 cursor-pointer"
+                        className="bg-emerald-100 text-emerald-800 focus:bg-emerald-200 focus:text-emerald-900 m-1 cursor-pointer"
                       >
                         {t.yes}
                       </DropdownMenuRadioItem>
                       <DropdownMenuRadioItem
                         value="false"
-                        className="bg-orange-100 text-orange-900 focus:bg-orange-200 focus:text-orange-900 m-1 cursor-pointer"
+                        className="bg-red-100 text-red-800 focus:bg-red-200 focus:text-red-900 m-1 cursor-pointer"
                       >
                         {t.no}
                       </DropdownMenuRadioItem>
