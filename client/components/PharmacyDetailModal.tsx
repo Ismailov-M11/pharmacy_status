@@ -266,8 +266,8 @@ export function PharmacyDetailModal({
                     {t.brandedPacket || "Branded Packet"}
                   </label>
                   <div className={`p-2 rounded border border-gray-200 text-center text-xs sm:text-sm mt-auto ${(pharmacy as any).brandedPacket
-                    ? "bg-lime-100 text-lime-900 border-lime-200"
-                    : "bg-orange-100 text-orange-900 border-orange-200"
+                    ? "bg-green-100 text-green-800 border-green-200"
+                    : "bg-red-100 text-red-800 border-red-200"
                     }`}>
                     {(pharmacy as any).brandedPacket ? t.yes : t.no}
                   </div>
@@ -277,8 +277,8 @@ export function PharmacyDetailModal({
                     {t.training || "Training"}
                   </label>
                   <div className={`p-2 rounded border border-gray-200 text-center text-xs sm:text-sm mt-auto ${(pharmacy as any).training
-                    ? "bg-lime-100 text-lime-900 border-lime-200"
-                    : "bg-orange-100 text-orange-900 border-orange-200"
+                    ? "bg-green-100 text-green-800 border-green-200"
+                    : "bg-red-100 text-red-800 border-red-200"
                     }`}>
                     {(pharmacy as any).training ? t.yes : t.no}
                   </div>

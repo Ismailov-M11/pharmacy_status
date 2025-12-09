@@ -111,7 +111,7 @@ export function PharmacyTable({
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+      <div className="flex flex-col sm:flex-row gap-4 items-end sm:items-center justify-between">
         <Input
           type="text"
           placeholder={`${t.pharmacyName} / ${t.address}...`}
