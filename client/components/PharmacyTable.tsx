@@ -169,45 +169,45 @@ export function PharmacyTable({
               </th>
               <th
                 className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700"
-                style={{ width: "180px" }}
+                style={{ width: "180px", minWidth: "180px" }}
               >
                 <div className="break-words">{t.pharmacyName}</div>
               </th>
               <th
                 className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700"
-                style={{ width: "200px" }}
+                style={{ width: "200px", minWidth: "200px" }}
               >
                 <div className="break-words">{t.address}</div>
               </th>
               <th
                 className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700"
-                style={{ width: "150px" }}
+                style={{ width: "150px", minWidth: "150px" }}
               >
                 <div className="break-words">{t.landmark}</div>
               </th>
               <th
-                className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-normal"
+                className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap"
                 style={{ width: "120px" }}
               >
                 {t.pharmacyPhone}
               </th>
               <th
-                className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-normal"
+                className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap"
                 style={{ width: "120px" }}
               >
                 {t.leadPhone}
               </th>
 
-              <th className="px-2 md:px-4 py-2 md:py-3 text-center font-semibold text-gray-700 whitespace-normal">
+              <th className="px-2 md:px-4 py-2 md:py-3 text-center font-semibold text-gray-700 whitespace-nowrap min-w-max">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="-ml-3 h-8 data-[state=open]:bg-accent w-full justify-start md:justify-center"
+                      className="-ml-3 h-8 data-[state=open]:bg-accent"
                     >
-                      <span className="truncate">{t.telegramBot}</span>
-                      <ChevronDown className="ml-2 h-4 w-4 flex-shrink-0" />
+                      <span>{t.telegramBot}</span>
+                      <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
@@ -236,16 +236,16 @@ export function PharmacyTable({
                   </DropdownMenuContent>
                 </DropdownMenu>
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-center font-semibold text-gray-700 whitespace-normal">
+              <th className="px-2 md:px-4 py-2 md:py-3 text-center font-semibold text-gray-700 whitespace-nowrap min-w-max">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="-ml-3 h-8 data-[state=open]:bg-accent w-full justify-start md:justify-center"
+                      className="-ml-3 h-8 data-[state=open]:bg-accent"
                     >
-                      <span className="truncate">{t.brandedPacket}</span>
-                      <ChevronDown className="ml-2 h-4 w-4 flex-shrink-0" />
+                      <span>{t.brandedPacket}</span>
+                      <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
