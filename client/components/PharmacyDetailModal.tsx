@@ -293,7 +293,7 @@ export function PharmacyDetailModal({
                 </div>
               </div>
 
-              </div>
+
 
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
@@ -305,217 +305,217 @@ export function PharmacyDetailModal({
               </div>
 
               {isAdmin && (
-            <>
+                <>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                    {t.stir || "STIR"}
-                  </label>
-                  <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
-                    {(pharmacy.lead as any)?.stir || "-"}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                        {t.stir || "STIR"}
+                      </label>
+                      <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
+                        {(pharmacy.lead as any)?.stir || "-"}
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                        {t.additionalPhone || "Additional Phone"}
+                      </label>
+                      <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
+                        {(pharmacy.lead as any)?.additionalPhone || "-"}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                    {t.additionalPhone || "Additional Phone"}
-                  </label>
-                  <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
-                    {(pharmacy.lead as any)?.additionalPhone || "-"}
+
+                  <div>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                      {t.juridicalName || "Juridical Name"}
+                    </label>
+                    <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
+                      {(pharmacy.lead as any)?.juridicalName || "-"}
+                    </div>
                   </div>
+
+                  <div>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                      {t.juridicalAddress || "Juridical Address"}
+                    </label>
+                    <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
+                      {(pharmacy.lead as any)?.juridicalAddress || "-"}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                        {t.bankName || "Bank Name"}
+                      </label>
+                      <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
+                        {(pharmacy.lead as any)?.bankName || "-"}
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                        {t.mfo || "MFO"}
+                      </label>
+                      <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
+                        {(pharmacy.lead as any)?.mfo || "-"}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                      {t.bankAccount || "Bank Account"}
+                    </label>
+                    <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
+                      {(pharmacy.lead as any)?.bankAccount || "-"}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Training Tab */}
+          {activeTab === "training" && isAdmin && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-100">
+                <div className="space-y-0.5">
+                  <Label className="text-sm sm:text-base font-medium">
+                    {t.changeStatus || "Change Status"}
+                  </Label>
                 </div>
+                <Select
+                  value={
+                    (pendingTraining ?? (pharmacy as any).training) ? "true" : "false"
+                  }
+                  onValueChange={(value) => setPendingTraining(value === "true")}
+                >
+                  <SelectTrigger
+                    className={`w-36 border-0 focus:ring-0 font-medium h-9 ${(pendingTraining ?? (pharmacy as any).training)
+                      ? "bg-green-600 hover:bg-green-700 text-white"
+                      : "bg-red-600 hover:bg-red-700 text-white"
+                      }`}
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="true">{t.yes || "YES"}</SelectItem>
+                    <SelectItem value="false">{t.no || "NO"}</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                  {t.juridicalName || "Juridical Name"}
+                  {t.comment || "Comment"} *
                 </label>
-                <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
-                  {(pharmacy.lead as any)?.juridicalName || "-"}
+                <Textarea
+                  value={trainingComment}
+                  onChange={(e) => {
+                    setTrainingComment(e.target.value);
+                    setTrainingError("");
+                  }}
+                  placeholder={t.enterComment || "Enter your comment..."}
+                  className="min-h-24 text-sm"
+                />
+                {trainingError && (
+                  <p className="text-red-500 text-xs sm:text-sm mt-1">{trainingError}</p>
+                )}
+              </div>
+
+              <div className="pt-2">
+                <Button
+                  onClick={() =>
+                    handleStatusChange(
+                      "training",
+                      pendingTraining ?? (pharmacy as any).training,
+                      trainingComment,
+                      setTrainingError,
+                    )
+                  }
+                  disabled={isUpdating || pendingTraining === (pharmacy as any).training}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-sm sm:text-base h-10 sm:h-11"
+                >
+                  {isUpdating ? "..." : t.update || "Update"}
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Package Tab */}
+          {activeTab === "package" && isAdmin && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-100">
+                <div className="space-y-0.5">
+                  <Label className="text-sm sm:text-base font-medium">
+                    {t.changeStatus || "Change Status"}
+                  </Label>
                 </div>
+                <Select
+                  value={
+                    (pendingPacket ?? (pharmacy as any).brandedPacket) ? "true" : "false"
+                  }
+                  onValueChange={(value) => setPendingPacket(value === "true")}
+                >
+                  <SelectTrigger
+                    className={`w-36 border-0 focus:ring-0 font-medium h-9 ${(pendingPacket ?? (pharmacy as any).brandedPacket)
+                      ? "bg-green-600 hover:bg-green-700 text-white"
+                      : "bg-red-600 hover:bg-red-700 text-white"
+                      }`}
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="true">{t.yes || "YES"}</SelectItem>
+                    <SelectItem value="false">{t.no || "NO"}</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                  {t.juridicalAddress || "Juridical Address"}
+                  {t.comment || "Comment"} *
                 </label>
-                <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
-                  {(pharmacy.lead as any)?.juridicalAddress || "-"}
-                </div>
+                <Textarea
+                  value={packageComment}
+                  onChange={(e) => {
+                    setPackageComment(e.target.value);
+                    setPackageError("");
+                  }}
+                  placeholder={t.enterComment || "Enter your comment..."}
+                  className="min-h-24 text-sm"
+                />
+                {packageError && (
+                  <p className="text-red-500 text-xs sm:text-sm mt-1">{packageError}</p>
+                )}
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                    {t.bankName || "Bank Name"}
-                  </label>
-                  <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
-                    {(pharmacy.lead as any)?.bankName || "-"}
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                    {t.mfo || "MFO"}
-                  </label>
-                  <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
-                    {(pharmacy.lead as any)?.mfo || "-"}
-                  </div>
-                </div>
+              <div className="pt-2">
+                <Button
+                  onClick={() =>
+                    handleStatusChange(
+                      "brandedPacket",
+                      pendingPacket ?? (pharmacy as any).brandedPacket,
+                      packageComment,
+                      setPackageError,
+                    )
+                  }
+                  disabled={isUpdating || pendingPacket === (pharmacy as any).brandedPacket}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-sm sm:text-base h-10 sm:h-11"
+                >
+                  {isUpdating ? "..." : t.update || "Update"}
+                </Button>
               </div>
+            </div>
+          )}
 
-              <div>
-                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                  {t.bankAccount || "Bank Account"}
-                </label>
-                <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
-                  {(pharmacy.lead as any)?.bankAccount || "-"}
-                </div>
-              </div>
-            </>
+          {/* History Tab */}
+          {activeTab === "history" && isAdmin && (
+            <ChangeHistory records={pharmacyChangeHistory} />
           )}
         </div>
-          )}
-
-        {/* Training Tab */}
-        {activeTab === "training" && isAdmin && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-100">
-              <div className="space-y-0.5">
-                <Label className="text-sm sm:text-base font-medium">
-                  {t.changeStatus || "Change Status"}
-                </Label>
-              </div>
-              <Select
-                value={
-                  (pendingTraining ?? (pharmacy as any).training) ? "true" : "false"
-                }
-                onValueChange={(value) => setPendingTraining(value === "true")}
-              >
-                <SelectTrigger
-                  className={`w-36 border-0 focus:ring-0 font-medium h-9 ${(pendingTraining ?? (pharmacy as any).training)
-                      ? "bg-green-600 hover:bg-green-700 text-white"
-                      : "bg-red-600 hover:bg-red-700 text-white"
-                    }`}
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="true">{t.yes || "YES"}</SelectItem>
-                  <SelectItem value="false">{t.no || "NO"}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                {t.comment || "Comment"} *
-              </label>
-              <Textarea
-                value={trainingComment}
-                onChange={(e) => {
-                  setTrainingComment(e.target.value);
-                  setTrainingError("");
-                }}
-                placeholder={t.enterComment || "Enter your comment..."}
-                className="min-h-24 text-sm"
-              />
-              {trainingError && (
-                <p className="text-red-500 text-xs sm:text-sm mt-1">{trainingError}</p>
-              )}
-            </div>
-
-            <div className="pt-2">
-              <Button
-                onClick={() =>
-                  handleStatusChange(
-                    "training",
-                    pendingTraining ?? (pharmacy as any).training,
-                    trainingComment,
-                    setTrainingError,
-                  )
-                }
-                disabled={isUpdating || pendingTraining === (pharmacy as any).training}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-sm sm:text-base h-10 sm:h-11"
-              >
-                {isUpdating ? "..." : t.update || "Update"}
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {/* Package Tab */}
-        {activeTab === "package" && isAdmin && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-100">
-              <div className="space-y-0.5">
-                <Label className="text-sm sm:text-base font-medium">
-                  {t.changeStatus || "Change Status"}
-                </Label>
-              </div>
-              <Select
-                value={
-                  (pendingPacket ?? (pharmacy as any).brandedPacket) ? "true" : "false"
-                }
-                onValueChange={(value) => setPendingPacket(value === "true")}
-              >
-                <SelectTrigger
-                  className={`w-36 border-0 focus:ring-0 font-medium h-9 ${(pendingPacket ?? (pharmacy as any).brandedPacket)
-                      ? "bg-green-600 hover:bg-green-700 text-white"
-                      : "bg-red-600 hover:bg-red-700 text-white"
-                    }`}
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="true">{t.yes || "YES"}</SelectItem>
-                  <SelectItem value="false">{t.no || "NO"}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                {t.comment || "Comment"} *
-              </label>
-              <Textarea
-                value={packageComment}
-                onChange={(e) => {
-                  setPackageComment(e.target.value);
-                  setPackageError("");
-                }}
-                placeholder={t.enterComment || "Enter your comment..."}
-                className="min-h-24 text-sm"
-              />
-              {packageError && (
-                <p className="text-red-500 text-xs sm:text-sm mt-1">{packageError}</p>
-              )}
-            </div>
-
-            <div className="pt-2">
-              <Button
-                onClick={() =>
-                  handleStatusChange(
-                    "brandedPacket",
-                    pendingPacket ?? (pharmacy as any).brandedPacket,
-                    packageComment,
-                    setPackageError,
-                  )
-                }
-                disabled={isUpdating || pendingPacket === (pharmacy as any).brandedPacket}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-sm sm:text-base h-10 sm:h-11"
-              >
-                {isUpdating ? "..." : t.update || "Update"}
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {/* History Tab */}
-        {activeTab === "history" && isAdmin && (
-          <ChangeHistory records={pharmacyChangeHistory} />
-        )}
-      </div>
-    </DialogContent>
+      </DialogContent>
     </Dialog >
   );
 }
