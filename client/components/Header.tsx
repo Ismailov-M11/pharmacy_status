@@ -53,7 +53,7 @@ export function Header() {
           <Button
             onClick={handleLogout}
             variant="outline"
-            className="text-purple-700 border-purple-700 hover:bg-purple-50"
+            className="text-purple-700 border-purple-700 hover:bg-purple-50 hover:text-purple-700"
           >
             {t.logout}
           </Button>

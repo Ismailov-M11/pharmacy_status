@@ -207,7 +207,7 @@ export function PharmacyTable({
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="-ml-3 h-8 data-[state=open]:bg-accent"
+                      className="-ml-3 h-8 data-[state=open]:bg-purple-600 data-[state=open]:text-white"
                     >
                       <span>{t.telegramBot}</span>
                       <ChevronDown className="ml-2 h-4 w-4" />
@@ -245,7 +245,7 @@ export function PharmacyTable({
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="-ml-3 h-8 data-[state=open]:bg-accent"
+                      className="-ml-3 h-8 data-[state=open]:bg-purple-600 data-[state=open]:text-white"
                     >
                       <span>{t.brandedPacket}</span>
                       <ChevronDown className="ml-2 h-4 w-4" />
@@ -283,7 +283,7 @@ export function PharmacyTable({
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="-ml-3 h-8 data-[state=open]:bg-accent"
+                      className="-ml-3 h-8 data-[state=open]:bg-purple-600 data-[state=open]:text-white"
                     >
                       <span>{t.training}</span>
                       <ChevronDown className="ml-2 h-4 w-4" />
