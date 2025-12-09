@@ -540,3 +540,4 @@ export function PharmacyTable({
     </div >
   );
 }
+// Force rebuild to apply styles
