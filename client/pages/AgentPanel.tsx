@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Header } from "@/components/Header";
 import { PharmacyTable } from "@/components/PharmacyTable";
 import { PharmacyDetailModal } from "@/components/PharmacyDetailModal";
-import { getPharmacyList, Pharmacy } from "@/lib/api";
+import { getPharmacyList, updatePharmacyStatus, Pharmacy } from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
@@ -152,7 +152,27 @@ export default function AgentPanel() {
           pharmacy={selectedPharmacy}
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          onUpdateStatus={async () => { }}
+          onUpdateStatus={async (id, field, value) => {
+            if (!token) return;
+            try {
+              const updatedPharmacy = await updatePharmacyStatus(
+                token,
+                id,
+                field,
+                value,
+              );
+              setPharmacies((prev) =>
+                prev.map((p) => (p.id === id ? updatedPharmacy : p)),
+              );
+              setFilteredPharmacies((prev) =>
+                prev.map((p) => (p.id === id ? updatedPharmacy : p)),
+              );
+              setSelectedPharmacy(updatedPharmacy);
+            } catch (error) {
+              console.error("Failed to update status:", error);
+              throw error;
+            }
+          }}
           isAdmin={false}
         />
       </main>

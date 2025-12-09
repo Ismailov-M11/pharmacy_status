@@ -139,46 +139,44 @@ export function PharmacyDetailModal({
 
         <div className="space-y-4">
           {/* Tabs - only show for admin */}
-          {isAdmin && (
-            <div className="flex gap-1 border-b overflow-x-auto">
-              <button
-                onClick={() => setActiveTab("details")}
-                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "details"
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-600 hover:text-gray-900"
-                  }`}
-              >
-                {t.details || "Details"}
-              </button>
-              <button
-                onClick={() => setActiveTab("training")}
-                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "training"
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-600 hover:text-gray-900"
-                  }`}
-              >
-                {t.training || "Training"}
-              </button>
-              <button
-                onClick={() => setActiveTab("package")}
-                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "package"
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-600 hover:text-gray-900"
-                  }`}
-              >
-                {t.brandedPacket || "Branded Packet"}
-              </button>
-              <button
-                onClick={() => setActiveTab("history")}
-                className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "history"
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-600 hover:text-gray-900"
-                  }`}
-              >
-                {t.history || "History"}
-              </button>
-            </div>
-          )}
+          <div className="flex gap-1 border-b overflow-x-auto">
+            <button
+              onClick={() => setActiveTab("details")}
+              className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "details"
+                ? "border-blue-500 text-blue-600"
+                : "border-transparent text-gray-600 hover:text-gray-900"
+                }`}
+            >
+              {t.details || "Details"}
+            </button>
+            <button
+              onClick={() => setActiveTab("training")}
+              className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "training"
+                ? "border-blue-500 text-blue-600"
+                : "border-transparent text-gray-600 hover:text-gray-900"
+                }`}
+            >
+              {t.training || "Training"}
+            </button>
+            <button
+              onClick={() => setActiveTab("package")}
+              className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "package"
+                ? "border-blue-500 text-blue-600"
+                : "border-transparent text-gray-600 hover:text-gray-900"
+                }`}
+            >
+              {t.brandedPacket || "Branded Packet"}
+            </button>
+            <button
+              onClick={() => setActiveTab("history")}
+              className={`px-2 sm:px-4 py-2 font-medium border-b-2 transition-colors text-xs sm:text-sm whitespace-nowrap ${activeTab === "history"
+                ? "border-blue-500 text-blue-600"
+                : "border-transparent text-gray-600 hover:text-gray-900"
+                }`}
+            >
+              {t.history || "History"}
+            </button>
+          </div>
 
           {/* Details Tab */}
           {activeTab === "details" && (
@@ -377,7 +375,7 @@ export function PharmacyDetailModal({
           )}
 
           {/* Training Tab */}
-          {activeTab === "training" && isAdmin && (
+          {activeTab === "training" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-100">
                 <div className="space-y-0.5">
@@ -444,7 +442,7 @@ export function PharmacyDetailModal({
           )}
 
           {/* Package Tab */}
-          {activeTab === "package" && isAdmin && (
+          {activeTab === "package" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-100">
                 <div className="space-y-0.5">
@@ -511,7 +509,7 @@ export function PharmacyDetailModal({
           )}
 
           {/* History Tab */}
-          {activeTab === "history" && isAdmin && (
+          {activeTab === "history" && (
             <ChangeHistory records={pharmacyChangeHistory} />
           )}
         </div>
