@@ -369,22 +369,24 @@ export function PharmacyDetailModal({
           {/* Training Tab */}
           {activeTab === "training" && isAdmin && (
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t.currentStatus || "Current Status"}
-                </label>
-                <span
-                  className={`px-3 py-1 rounded text-sm font-medium inline-block ${(pharmacy as any).training
-                    ? "bg-lime-100 text-lime-900"
-                    : "bg-orange-100 text-orange-900"
-                    }`}
-                >
-                  {(pharmacy as any).training ? t.yes : t.no}
-                </span>
+              <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-100">
+                <div className="space-y-0.5">
+                  <Label className="text-sm sm:text-base font-medium">
+                    {t.changeStatus || "Change Status"}
+                  </Label>
+                  <p className="text-xs sm:text-sm text-gray-500">
+                    {(pendingTraining ?? (pharmacy as any).training) ? t.yes : t.no}
+                  </p>
+                </div>
+                <Switch
+                  checked={pendingTraining ?? (pharmacy as any).training}
+                  onCheckedChange={setPendingTraining}
+                  disabled={isUpdating}
+                />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   {t.comment || "Comment"} *
                 </label>
                 <Textarea
@@ -394,41 +396,27 @@ export function PharmacyDetailModal({
                     setTrainingError("");
                   }}
                   placeholder={t.enterComment || "Enter your comment..."}
-                  className="min-h-24"
+                  className="min-h-24 text-sm"
                 />
                 {trainingError && (
-                  <p className="text-red-500 text-sm mt-1">{trainingError}</p>
+                  <p className="text-red-500 text-xs sm:text-sm mt-1">{trainingError}</p>
                 )}
               </div>
 
-              <div className="flex gap-2">
+              <div className="pt-2">
                 <Button
                   onClick={() =>
                     handleStatusChange(
                       "training",
-                      true,
+                      pendingTraining ?? (pharmacy as any).training,
                       trainingComment,
                       setTrainingError,
                     )
                   }
-                  disabled={isUpdating || (pharmacy as any).training}
-                  className="bg-green-600 hover:bg-green-700"
+                  disabled={isUpdating || pendingTraining === (pharmacy as any).training}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-sm sm:text-base h-10 sm:h-11"
                 >
-                  {isUpdating ? "..." : t.yes || "Yes"}
-                </Button>
-                <Button
-                  onClick={() =>
-                    handleStatusChange(
-                      "training",
-                      false,
-                      trainingComment,
-                      setTrainingError,
-                    )
-                  }
-                  disabled={isUpdating || !(pharmacy as any).training}
-                  className="bg-red-600 hover:bg-red-700"
-                >
-                  {isUpdating ? "..." : t.no || "No"}
+                  {isUpdating ? "..." : t.update || "Update"}
                 </Button>
               </div>
             </div>
@@ -437,22 +425,24 @@ export function PharmacyDetailModal({
           {/* Package Tab */}
           {activeTab === "package" && isAdmin && (
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t.currentStatus || "Current Status"}
-                </label>
-                <span
-                  className={`px-3 py-1 rounded text-sm font-medium inline-block ${(pharmacy as any).brandedPacket
-                    ? "bg-lime-100 text-lime-900"
-                    : "bg-orange-100 text-orange-900"
-                    }`}
-                >
-                  {(pharmacy as any).brandedPacket ? t.yes : t.no}
-                </span>
+              <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-100">
+                <div className="space-y-0.5">
+                  <Label className="text-sm sm:text-base font-medium">
+                    {t.changeStatus || "Change Status"}
+                  </Label>
+                  <p className="text-xs sm:text-sm text-gray-500">
+                    {(pendingPacket ?? (pharmacy as any).brandedPacket) ? t.yes : t.no}
+                  </p>
+                </div>
+                <Switch
+                  checked={pendingPacket ?? (pharmacy as any).brandedPacket}
+                  onCheckedChange={setPendingPacket}
+                  disabled={isUpdating}
+                />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   {t.comment || "Comment"} *
                 </label>
                 <Textarea
@@ -462,41 +452,27 @@ export function PharmacyDetailModal({
                     setPackageError("");
                   }}
                   placeholder={t.enterComment || "Enter your comment..."}
-                  className="min-h-24"
+                  className="min-h-24 text-sm"
                 />
                 {packageError && (
-                  <p className="text-red-500 text-sm mt-1">{packageError}</p>
+                  <p className="text-red-500 text-xs sm:text-sm mt-1">{packageError}</p>
                 )}
               </div>
 
-              <div className="flex gap-2">
+              <div className="pt-2">
                 <Button
                   onClick={() =>
                     handleStatusChange(
                       "brandedPacket",
-                      true,
+                      pendingPacket ?? (pharmacy as any).brandedPacket,
                       packageComment,
                       setPackageError,
                     )
                   }
-                  disabled={isUpdating || (pharmacy as any).brandedPacket}
-                  className="bg-green-600 hover:bg-green-700"
+                  disabled={isUpdating || pendingPacket === (pharmacy as any).brandedPacket}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-sm sm:text-base h-10 sm:h-11"
                 >
-                  {isUpdating ? "..." : t.yes || "Yes"}
-                </Button>
-                <Button
-                  onClick={() =>
-                    handleStatusChange(
-                      "brandedPacket",
-                      false,
-                      packageComment,
-                      setPackageError,
-                    )
-                  }
-                  disabled={isUpdating || !(pharmacy as any).brandedPacket}
-                  className="bg-red-600 hover:bg-red-700"
-                >
-                  {isUpdating ? "..." : t.no || "No"}
+                  {isUpdating ? "..." : t.update || "Update"}
                 </Button>
               </div>
             </div>
