@@ -155,6 +155,7 @@ export default function AgentPanel() {
           onUpdateStatus={async () => { }}
           isAdmin={false}
         />
+      </main>
     </div>
   );
 }
