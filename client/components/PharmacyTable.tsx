@@ -110,7 +110,7 @@ export function PharmacyTable({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 h-full flex flex-col">
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <Input
           type="text"
@@ -151,8 +151,8 @@ export function PharmacyTable({
         </DropdownMenu>
       </div>
 
-      <div className="overflow-auto border rounded-md" style={{ height: "calc(100vh - 180px)", minHeight: "650px" }}>
-        <table className="w-full text-xs md:text-sm">
+      <div className="flex-1 overflow-auto border rounded-md min-h-0 bg-white shadow-sm">
+        <table className="w-full text-xs md:text-sm relative">
           <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-40 bg-white shadow-sm">
             <tr>
               <th
