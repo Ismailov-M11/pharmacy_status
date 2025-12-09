@@ -59,7 +59,7 @@ export function PharmacyDetailModal({
   const [trainingComment, setTrainingComment] = useState("");
   const [packageComment, setPackageComment] = useState("");
   const [trainingError, setTrainingError] = useState("");
-  const [trainingError, setTrainingError] = useState("");
+
   const [packageError, setPackageError] = useState("");
   const [pendingTraining, setPendingTraining] = useState<boolean | null>(null);
   const [pendingPacket, setPendingPacket] = useState<boolean | null>(null);
