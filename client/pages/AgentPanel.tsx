@@ -121,15 +121,16 @@ export default function AgentPanel() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 overflow-hidden">
+    <div className="min-h-screen bg-gray-50">
       <Header />
 
-      <main className="flex-1 w-full max-w-[1700px] mx-auto px-4 flex flex-col overflow-hidden pt-4 pb-2">
-        <div className="mb-2 flex-none">
-          <h1 className="text-2xl font-bold text-gray-900">{t.agentPanel}</h1>
+      <main className="w-full max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">{t.agentPanel}</h1>
+          <p className="text-gray-600 mt-2">{t.pharmacyName}</p>
         </div>
 
-        <div className="flex-1 bg-white rounded-lg shadow flex flex-col overflow-hidden min-h-0">
+        <div className="bg-white rounded-lg shadow p-4">
           <PharmacyTable
             pharmacies={filteredPharmacies}
             isLoading={isLoading}
