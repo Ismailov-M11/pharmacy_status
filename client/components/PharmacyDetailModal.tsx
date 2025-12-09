@@ -249,40 +249,40 @@ export function PharmacyDetailModal({
                   <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                     {t.leadPhone || "Lead Phone"}
                   </label>
-                  <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm">
+                  <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm break-words">
                     {pharmacy.lead?.phone || "-"}
                   </div>
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-2">
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                <div className="flex flex-col h-full">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 flex-grow">
                     {t.telegramBot || "Telegram Bot"}
                   </label>
-                  <div className={`p-2 rounded border border-gray-200 text-center ${(pharmacy as any).marketChats?.length > 0
+                  <div className={`p-2 rounded border border-gray-200 text-center text-xs sm:text-sm mt-auto ${(pharmacy as any).marketChats?.length > 0
                     ? "bg-green-100 text-green-800 border-green-200"
                     : "bg-red-100 text-red-800 border-red-200"
                     }`}>
                     {(pharmacy as any).marketChats?.length > 0 ? t.yes : t.no}
                   </div>
                 </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                <div className="flex flex-col h-full">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 flex-grow">
                     {t.brandedPacket || "Branded Packet"}
                   </label>
-                  <div className={`p-2 rounded border border-gray-200 text-center ${(pharmacy as any).brandedPacket
+                  <div className={`p-2 rounded border border-gray-200 text-center text-xs sm:text-sm mt-auto ${(pharmacy as any).brandedPacket
                     ? "bg-lime-100 text-lime-900 border-lime-200"
                     : "bg-orange-100 text-orange-900 border-orange-200"
                     }`}>
                     {(pharmacy as any).brandedPacket ? t.yes : t.no}
                   </div>
                 </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                <div className="flex flex-col h-full">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 flex-grow">
                     {t.training || "Training"}
                   </label>
-                  <div className={`p-2 rounded border border-gray-200 text-center ${(pharmacy as any).training
+                  <div className={`p-2 rounded border border-gray-200 text-center text-xs sm:text-sm mt-auto ${(pharmacy as any).training
                     ? "bg-lime-100 text-lime-900 border-lime-200"
                     : "bg-orange-100 text-orange-900 border-orange-200"
                     }`}>
