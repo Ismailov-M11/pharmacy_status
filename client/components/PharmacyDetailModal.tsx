@@ -227,10 +227,10 @@ export function PharmacyDetailModal({
 
               {(pharmacy as any).landmark && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                     {t.landmark || "Landmark"}
                   </label>
-                  <div className="p-2 bg-gray-50 rounded border border-gray-200">
+                  <div className="p-2 bg-gray-50 rounded border border-gray-200 text-xs sm:text-sm break-words">
                     {(pharmacy as any).landmark}
                   </div>
                 </div>
