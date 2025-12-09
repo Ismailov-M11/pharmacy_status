@@ -41,7 +41,7 @@ export function Header() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuMenuItem onClick={() => setLanguage('ru')} className={language === 'ru' ? 'bg-purple-50 text-purple-700' : ''}>
+              <DropdownMenuItem onClick={() => setLanguage('ru')} className={language === 'ru' ? 'bg-purple-50 text-purple-700' : ''}>
                 🇷🇺 Русский
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setLanguage('uz')} className={language === 'uz' ? 'bg-purple-50 text-purple-700' : ''}>
