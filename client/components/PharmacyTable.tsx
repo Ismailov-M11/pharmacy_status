@@ -137,10 +137,16 @@ export function PharmacyTable({
               }
               onValueChange={(val) => handleFilterChange(val, onFilterChange)}
             >
-              <DropdownMenuRadioItem value="true">
+              <DropdownMenuRadioItem
+                value="true"
+                className="bg-emerald-100 text-emerald-800 focus:bg-emerald-200 focus:text-emerald-900 m-1 cursor-pointer"
+              >
                 {t.active}
               </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="false">
+              <DropdownMenuRadioItem
+                value="false"
+                className="bg-red-100 text-red-800 focus:bg-red-200 focus:text-red-900 m-1 cursor-pointer"
+              >
                 {t.inactive}
               </DropdownMenuRadioItem>
               <DropdownMenuRadioItem value="null">
@@ -333,49 +339,8 @@ export function PharmacyTable({
                   </DropdownMenuContent>
                 </DropdownMenu>
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-center font-semibold text-gray-700 whitespace-nowrap min-w-max">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="-ml-3 h-8 data-[state=open]:bg-purple-600 data-[state=open]:text-white"
-                    >
-                      <span>{t.status}</span>
-                      <ChevronDown className="ml-2 h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start">
-                    <DropdownMenuRadioGroup
-                      value={
-                        activeFilter === true
-                          ? "true"
-                          : activeFilter === false
-                            ? "false"
-                            : "null"
-                      }
-                      onValueChange={(val) =>
-                        handleFilterChange(val, onFilterChange)
-                      }
-                    >
-                      <DropdownMenuRadioItem value="null">
-                        {t.allPharmacies}
-                      </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem
-                        value="true"
-                        className="bg-emerald-100 text-emerald-800 focus:bg-emerald-200 focus:text-emerald-900 m-1 cursor-pointer"
-                      >
-                        {t.active}
-                      </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem
-                        value="false"
-                        className="bg-red-100 text-red-800 focus:bg-red-200 focus:text-red-900 m-1 cursor-pointer"
-                      >
-                        {t.inactive}
-                      </DropdownMenuRadioItem>
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap min-w-max">
+                {t.status}
               </th>
               {isAdmin && (
                 <>
