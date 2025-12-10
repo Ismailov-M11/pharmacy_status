@@ -178,31 +178,31 @@ export function PharmacyTable({
               </th>
               <th
                 className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700"
-                style={{ width: "180px", minWidth: "180px" }}
+                style={{ width: "150px", minWidth: "150px" }}
               >
                 <div className="break-words">{t.pharmacyName}</div>
               </th>
               <th
                 className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700"
-                style={{ width: "200px", minWidth: "200px" }}
+                style={{ width: "170px", minWidth: "170px" }}
               >
                 <div className="break-words">{t.address}</div>
               </th>
               <th
                 className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700"
-                style={{ width: "150px", minWidth: "150px" }}
+                style={{ width: "130px", minWidth: "130px" }}
               >
                 <div className="break-words">{t.landmark}</div>
               </th>
               <th
                 className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap"
-                style={{ width: "120px" }}
+                style={{ width: "110px" }}
               >
                 {t.pharmacyPhone}
               </th>
               <th
                 className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap"
-                style={{ width: "120px" }}
+                style={{ width: "110px" }}
               >
                 {t.leadPhone}
               </th>
