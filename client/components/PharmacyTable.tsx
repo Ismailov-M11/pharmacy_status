@@ -157,7 +157,7 @@ export function PharmacyTable({
         </DropdownMenu>
       </div>
 
-      <div className="border rounded-md bg-white shadow-sm">
+      <div className="border rounded-md bg-white shadow-sm overflow-x-auto">
         <table className="w-full text-xs md:text-sm relative">
           <thead className="bg-gray-50 border-b border-gray-200 sticky top-[82px] z-40 bg-white shadow-sm">
             <tr>
