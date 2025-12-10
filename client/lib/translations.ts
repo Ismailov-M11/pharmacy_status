@@ -7,9 +7,10 @@ export const translations = {
     error: "Ошибка",
     logout: "Выход",
     language: "Язык",
+    siteTitle: "Состояние аптек",
 
     // Login Page
-    login: "Вход",
+    login: "Логин",
     password: "Пароль",
     enterLogin: "Введите логин",
     enterPassword: "Введите пароль",
@@ -47,6 +48,8 @@ export const translations = {
     // Status Values
     yes: "ЕСТЬ",
     no: "НЕТ",
+    yesTraining: "ЕСТЬ",
+    noTraining: "НЕТ",
     available: "Доступно",
     unavailable: "Недоступно",
 
@@ -79,7 +82,22 @@ export const translations = {
     commentRequired: "Комментарий обязателен",
     history: "История",
     noChanges: "Нет изменений",
-    by: "От",
+    changedTo: "изменено на",
+    by: "пользователем",
+    deleted: "Удалено",
+    telegramUsers: "Пользователи Telegram Bot",
+    name: "Имя",
+    username: "Имя пользователя",
+    chatId: "Чат ID",
+    noTelegramUsers: "Нет пользователей Telegram",
+    confirmDelete: "Вы действительно хотите удалить?",
+    deleteSelected: "Удалить выбранные",
+    clear: "Очистить",
+    deleteWarning: "Эта запись будет удалена безвозвратно.",
+    deleteWarningMultiple: "Выбранные записи будут удалены безвозвратно.",
+    year: "год",
+    confirmYes: "ДА",
+    confirmNo: "НЕТ",
   },
   uz: {
     // Common
@@ -87,9 +105,10 @@ export const translations = {
     error: "Xatolik",
     logout: "Chiqish",
     language: "Til",
+    siteTitle: "Aptekalar holati",
 
     // Login Page
-    login: "Kirish",
+    login: "Login",
     password: "Parol",
     enterLogin: "Loginingizni kiriting",
     enterPassword: "Parolingizni kiriting",
@@ -127,6 +146,8 @@ export const translations = {
     // Status Values
     yes: "BOR",
     no: "YO'Q",
+    yesTraining: "HA",
+    noTraining: "YO'Q",
     available: "Mavjud",
     unavailable: "Mavjud emas",
 
@@ -159,7 +180,22 @@ export const translations = {
     commentRequired: "Izoh kerak",
     history: "Tarix",
     noChanges: "O'zgarishlar yo'q",
-    by: "Tomonidan",
+    changedTo: "o'zgartirildi",
+    by: "tomonidan",
+    deleted: "O'chirildi",
+    telegramUsers: "Telegram Bot foydalanuvchilari",
+    name: "Ism",
+    username: "Foydalanuvchi nomi",
+    chatId: "Chat ID",
+    noTelegramUsers: "Telegram foydalanuvchilari yo'q",
+    confirmDelete: "Haqiqatan ham o'chirmoqchimisiz?",
+    deleteSelected: "Tanlanganlarni o'chirish",
+    clear: "Tozalash",
+    deleteWarning: "Bu yozuv qaytarib bo'lmaydigan tarzda o'chiriladi.",
+    deleteWarningMultiple: "Tanlangan yozuvlar qaytarib bo'lmaydigan tarzda o'chiriladi.",
+    year: "yil",
+    confirmYes: "HA",
+    confirmNo: "YO'Q",
   },
 };
 

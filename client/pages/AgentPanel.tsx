@@ -5,13 +5,20 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Header } from "@/components/Header";
 import { PharmacyTable } from "@/components/PharmacyTable";
 import { PharmacyDetailModal } from "@/components/PharmacyDetailModal";
-import { getPharmacyList, updatePharmacyStatus, Pharmacy } from "@/lib/api";
+import {
+  getPharmacyList,
+  Pharmacy,
+  getPharmacyStatus,
+  updatePharmacyStatusLocal,
+  getStatusHistory,
+  StatusHistoryRecord
+} from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 export default function AgentPanel() {
   const { t } = useLanguage();
-  const { token, isLoading: authLoading } = useAuth();
+  const { token, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +36,8 @@ export default function AgentPanel() {
     null,
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [changeHistory, setChangeHistory] = useState<StatusHistoryRecord[]>([]);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
 
   useEffect(() => {
     if (authLoading) return;
@@ -92,8 +101,32 @@ export default function AgentPanel() {
     setIsLoading(true);
     try {
       const response = await getPharmacyList(token, "", 0, activeFilter);
-      setPharmacies(response.payload?.list || []);
-      setFilteredPharmacies(response.payload?.list || []);
+      const pharmacyList = response.payload?.list || [];
+
+      // Fetch statuses from local backend for all pharmacies
+      const pharmaciesWithStatuses = await Promise.all(
+        pharmacyList.map(async (pharmacy) => {
+          try {
+            const status = await getPharmacyStatus(pharmacy.id);
+            return {
+              ...pharmacy,
+              training: status.training,
+              brandedPacket: status.brandedPacket
+            };
+          } catch (error) {
+            // If status not found, use defaults
+            console.warn(`Failed to fetch status for pharmacy ${pharmacy.id}:`, error);
+            return {
+              ...pharmacy,
+              training: false,
+              brandedPacket: false
+            };
+          }
+        })
+      );
+
+      setPharmacies(pharmaciesWithStatuses);
+      setFilteredPharmacies(pharmaciesWithStatuses);
     } catch (error) {
       console.error("Failed to fetch pharmacies:", error);
       toast.error(t.error);
@@ -102,14 +135,90 @@ export default function AgentPanel() {
     }
   };
 
-  const handlePharmacyClick = (pharmacy: Pharmacy) => {
+  const handlePharmacyClick = async (pharmacy: Pharmacy) => {
     setSelectedPharmacy(pharmacy);
     setIsModalOpen(true);
+
+    // Fetch status and history from local backend
+    setIsLoadingHistory(true);
+    try {
+      const [status, history] = await Promise.all([
+        getPharmacyStatus(pharmacy.id),
+        getStatusHistory(pharmacy.id)
+      ]);
+
+      // Update pharmacy with backend status
+      setSelectedPharmacy(prev => prev ? {
+        ...prev,
+        training: status.training,
+        brandedPacket: status.brandedPacket
+      } : null);
+
+      setChangeHistory(history);
+    } catch (error) {
+      console.error("Failed to fetch pharmacy status/history:", error);
+      setChangeHistory([]);
+    } finally {
+      setIsLoadingHistory(false);
+    }
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedPharmacy(null);
+    setChangeHistory([]);
+  };
+
+  const handleUpdateStatus = async (
+    pharmacyId: number,
+    field: "brandedPacket" | "training",
+    value: boolean,
+    comment: string,
+  ) => {
+    if (!token || !user) return;
+
+    try {
+      // Update via local backend using actual username
+      const updatedStatus = await updatePharmacyStatusLocal(
+        pharmacyId,
+        field,
+        value,
+        comment,
+        user.username
+      );
+
+      // Refresh history
+      const history = await getStatusHistory(pharmacyId);
+      setChangeHistory(history);
+
+      // Update local state with new values from backend
+      const updatePharmacy = (p: Pharmacy) => {
+        if (p.id === pharmacyId) {
+          return {
+            ...p,
+            training: updatedStatus.training,
+            brandedPacket: updatedStatus.brandedPacket
+          };
+        }
+        return p;
+      };
+
+      setPharmacies((prev) => prev.map(updatePharmacy));
+      setFilteredPharmacies((prev) => prev.map(updatePharmacy));
+
+      setSelectedPharmacy((prev) =>
+        prev ? {
+          ...prev,
+          training: updatedStatus.training,
+          brandedPacket: updatedStatus.brandedPacket
+        } : null,
+      );
+
+      toast.success(t.saved);
+    } catch (error) {
+      console.error("Failed to update pharmacy:", error);
+      toast.error(t.error);
+    }
   };
 
   if (authLoading) {
@@ -152,28 +261,10 @@ export default function AgentPanel() {
           pharmacy={selectedPharmacy}
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          onUpdateStatus={async (id, field, value) => {
-            if (!token) return;
-            try {
-              const updatedPharmacy = await updatePharmacyStatus(
-                token,
-                id,
-                field,
-                value,
-              );
-              setPharmacies((prev) =>
-                prev.map((p) => (p.id === id ? updatedPharmacy : p)),
-              );
-              setFilteredPharmacies((prev) =>
-                prev.map((p) => (p.id === id ? updatedPharmacy : p)),
-              );
-              setSelectedPharmacy(updatedPharmacy);
-            } catch (error) {
-              console.error("Failed to update status:", error);
-              throw error;
-            }
-          }}
+          onUpdateStatus={handleUpdateStatus}
           isAdmin={false}
+          changeHistory={changeHistory}
+          onDeleteHistory={undefined}
         />
       </main>
     </div>

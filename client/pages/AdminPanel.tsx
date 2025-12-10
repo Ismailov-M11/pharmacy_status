@@ -4,11 +4,16 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Header } from "@/components/Header";
 import { PharmacyTable } from "@/components/PharmacyTable";
+import { PharmacyDetailModal } from "@/components/PharmacyDetailModal";
 import {
-  PharmacyDetailModal,
-  ChangeRecord,
-} from "@/components/PharmacyDetailModal";
-import { getPharmacyList, updatePharmacyStatus, Pharmacy } from "@/lib/api";
+  getPharmacyList,
+  Pharmacy,
+  getPharmacyStatus,
+  updatePharmacyStatusLocal,
+  getStatusHistory,
+  deleteHistoryRecord,
+  StatusHistoryRecord
+} from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
@@ -32,9 +37,8 @@ export default function AdminPanel() {
     null,
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [changeHistory, setChangeHistory] = useState<
-    Record<number, ChangeRecord[]>
-  >({});
+  const [changeHistory, setChangeHistory] = useState<StatusHistoryRecord[]>([]);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
 
   useEffect(() => {
     if (authLoading) return;
@@ -117,8 +121,32 @@ export default function AdminPanel() {
     setIsLoading(true);
     try {
       const response = await getPharmacyList(token, "", 0, activeFilter);
-      setPharmacies(response.payload?.list || []);
-      setFilteredPharmacies(response.payload?.list || []);
+      const pharmacyList = response.payload?.list || [];
+
+      // Fetch statuses from local backend for all pharmacies
+      const pharmaciesWithStatuses = await Promise.all(
+        pharmacyList.map(async (pharmacy) => {
+          try {
+            const status = await getPharmacyStatus(pharmacy.id);
+            return {
+              ...pharmacy,
+              training: status.training,
+              brandedPacket: status.brandedPacket
+            };
+          } catch (error) {
+            // If status not found, use defaults
+            console.warn(`Failed to fetch status for pharmacy ${pharmacy.id}:`, error);
+            return {
+              ...pharmacy,
+              training: false,
+              brandedPacket: false
+            };
+          }
+        })
+      );
+
+      setPharmacies(pharmaciesWithStatuses);
+      setFilteredPharmacies(pharmaciesWithStatuses);
     } catch (error) {
       console.error("Failed to fetch pharmacies:", error);
       toast.error(t.error);
@@ -127,14 +155,38 @@ export default function AdminPanel() {
     }
   };
 
-  const handlePharmacyClick = (pharmacy: Pharmacy) => {
+  const handlePharmacyClick = async (pharmacy: Pharmacy) => {
     setSelectedPharmacy(pharmacy);
     setIsModalOpen(true);
+
+    // Fetch status and history from local backend
+    setIsLoadingHistory(true);
+    try {
+      const [status, history] = await Promise.all([
+        getPharmacyStatus(pharmacy.id),
+        getStatusHistory(pharmacy.id)
+      ]);
+
+      // Update pharmacy with backend status
+      setSelectedPharmacy(prev => prev ? {
+        ...prev,
+        training: status.training,
+        brandedPacket: status.brandedPacket
+      } : null);
+
+      setChangeHistory(history);
+    } catch (error) {
+      console.error("Failed to fetch pharmacy status/history:", error);
+      setChangeHistory([]);
+    } finally {
+      setIsLoadingHistory(false);
+    }
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedPharmacy(null);
+    setChangeHistory([]);
   };
 
   const handleUpdateStatus = async (
@@ -143,44 +195,63 @@ export default function AdminPanel() {
     value: boolean,
     comment: string,
   ) => {
-    if (!token) return;
+    if (!user) return;
 
     try {
-      await updatePharmacyStatus(token, pharmacyId, field, value);
-
-      const oldValue =
-        (selectedPharmacy?.[field as keyof Pharmacy] as boolean) || false;
-
-      const newRecord: ChangeRecord = {
-        id: `${pharmacyId}-${Date.now()}`,
+      // Update via local backend
+      const updatedStatus = await updatePharmacyStatusLocal(
+        pharmacyId,
         field,
-        timestamp: new Date().toISOString(),
-        user: user?.username || "User",
+        value,
         comment,
-        oldValue,
-        newValue: value,
+        user.username
+      );
+
+      // Refresh history
+      const history = await getStatusHistory(pharmacyId);
+      setChangeHistory(history);
+
+      // Update local state with new values from backend
+      const updatePharmacy = (p: Pharmacy) => {
+        if (p.id === pharmacyId) {
+          return {
+            ...p,
+            training: updatedStatus.training,
+            brandedPacket: updatedStatus.brandedPacket
+          };
+        }
+        return p;
       };
 
-      setChangeHistory((prev) => ({
-        ...prev,
-        [pharmacyId]: [...(prev[pharmacyId] || []), newRecord],
-      }));
-
-      setPharmacies((prev) =>
-        prev.map((p) => (p.id === pharmacyId ? { ...p, [field]: value } : p)),
-      );
-
-      setFilteredPharmacies((prev) =>
-        prev.map((p) => (p.id === pharmacyId ? { ...p, [field]: value } : p)),
-      );
+      setPharmacies((prev) => prev.map(updatePharmacy));
+      setFilteredPharmacies((prev) => prev.map(updatePharmacy));
 
       setSelectedPharmacy((prev) =>
-        prev ? { ...prev, [field]: value } : null,
+        prev ? {
+          ...prev,
+          training: updatedStatus.training,
+          brandedPacket: updatedStatus.brandedPacket
+        } : null,
       );
 
       toast.success(t.saved);
     } catch (error) {
       console.error("Failed to update pharmacy:", error);
+      toast.error(t.error);
+    }
+  };
+
+  const handleDeleteHistory = async (ids: number[]) => {
+    try {
+      // Delete all selected records
+      await Promise.all(ids.map(id => deleteHistoryRecord(id)));
+
+      // Remove deleted records from state
+      setChangeHistory(prev => prev.filter(record => !ids.includes(record.id)));
+
+      toast.success(t.deleted || "Deleted");
+    } catch (error) {
+      console.error("Failed to delete history:", error);
       toast.error(t.error);
     }
   };
@@ -230,9 +301,8 @@ export default function AdminPanel() {
         onUpdateStatus={handleUpdateStatus}
         isAdmin={true}
         currentUsername={user?.username}
-        changeHistory={
-          selectedPharmacy ? changeHistory[selectedPharmacy.id] || [] : []
-        }
+        changeHistory={changeHistory}
+        onDeleteHistory={handleDeleteHistory}
       />
     </div>
   );

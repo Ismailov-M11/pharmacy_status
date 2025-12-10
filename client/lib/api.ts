@@ -150,3 +150,102 @@ export async function updatePharmacyStatus(
 
   return response.json();
 }
+
+// ============================================
+// LOCAL BACKEND API (localhost:5000)
+// ============================================
+
+const STATUS_API_BASE_URL = 'http://localhost:5000/api/status';
+
+export interface PharmacyStatus {
+  pharmacy_id: string;
+  training: boolean;
+  brandedPacket: boolean;
+  updated_at: string;
+}
+
+export interface StatusHistoryRecord {
+  id: number;
+  pharmacy_id: string;
+  field: 'training' | 'brandedPacket';
+  old_value: boolean;
+  new_value: boolean;
+  comment: string;
+  changed_by: string;
+  changed_at: string;
+}
+
+export async function getPharmacyStatus(
+  pharmacyId: number
+): Promise<PharmacyStatus> {
+  const response = await fetch(`${STATUS_API_BASE_URL}/${pharmacyId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch pharmacy status');
+  }
+
+  return response.json();
+}
+
+export async function updatePharmacyStatusLocal(
+  pharmacyId: number,
+  field: 'brandedPacket' | 'training',
+  value: boolean,
+  comment: string,
+  changedBy: string
+): Promise<PharmacyStatus> {
+  const response = await fetch(`${STATUS_API_BASE_URL}/update/${pharmacyId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      update_type: field,
+      new_value: value,
+      comment,
+      changed_by: changedBy,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update pharmacy status');
+  }
+
+  return response.json();
+}
+
+export async function getStatusHistory(
+  pharmacyId: number
+): Promise<StatusHistoryRecord[]> {
+  const response = await fetch(`${STATUS_API_BASE_URL}/history/${pharmacyId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch status history');
+  }
+
+  return response.json();
+}
+
+export async function deleteHistoryRecord(id: number): Promise<void> {
+  const response = await fetch(`${STATUS_API_BASE_URL}/history/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to delete history record');
+  }
+}
+

@@ -69,12 +69,11 @@ export default function Login() {
           <div className="flex flex-col items-center mb-8">
             <img
               src="/logo.png"
-              alt="Aptekalar holati"
+              alt={t.siteTitle || "Aptekalar holati"}
               className="w-20 h-20 mb-4"
             />
-            <h1 className="text-3xl font-bold text-center">
-              <span className="text-purple-700">Aptekalar </span>
-              <span className="text-purple-700">holati</span>
+            <h1 className="text-3xl font-bold text-center text-purple-700">
+              {t.siteTitle || "Aptekalar holati"}
             </h1>
             <p className="text-gray-500 text-sm mt-2">
               Pharmacy Management System
@@ -85,8 +84,8 @@ export default function Login() {
             <button
               onClick={() => setLanguage("ru")}
               className={`flex-1 px-3 py-2 rounded font-medium text-sm transition-colors ${language === "ru"
-                  ? "bg-white text-purple-700 shadow-sm"
-                  : "text-gray-600 hover:text-gray-900"
+                ? "bg-white text-purple-700 shadow-sm"
+                : "text-gray-600 hover:text-gray-900"
                 }`}
             >
               RU 🇷🇺
@@ -94,8 +93,8 @@ export default function Login() {
             <button
               onClick={() => setLanguage("uz")}
               className={`flex-1 px-3 py-2 rounded font-medium text-sm transition-colors ${language === "uz"
-                  ? "bg-white text-purple-700 shadow-sm"
-                  : "text-gray-600 hover:text-gray-900"
+                ? "bg-white text-purple-700 shadow-sm"
+                : "text-gray-600 hover:text-gray-900"
                 }`}
             >
               UZ 🇺🇿

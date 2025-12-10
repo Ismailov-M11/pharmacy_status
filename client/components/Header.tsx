@@ -24,11 +24,10 @@ export function Header() {
     <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
       <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src="/logo.png" alt="Aptekalar holati" className="w-12 h-12" />
+          <img src="/logo.png" alt={t.siteTitle || "Aptekalar holati"} className="w-12 h-12" />
           <div>
-            <div className="font-bold text-xl flex flex-col sm:flex-row sm:gap-1">
-              <span className="text-purple-700">Aptekalar</span>
-              <span className="text-purple-700">holati</span>
+            <div className="font-bold text-xl text-purple-700">
+              {t.siteTitle || "Aptekalar holati"}
             </div>
           </div>
         </div>

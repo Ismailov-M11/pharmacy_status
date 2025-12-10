@@ -64,6 +64,10 @@ export function PharmacyTable({
     return value ? t.yes : t.no;
   };
 
+  const getTrainingStatusText = (value: boolean) => {
+    return value ? t.yesTraining : t.noTraining;
+  };
+
   const getTelegramBotStatus = (marketChats: any[]) => {
     const hasChat =
       marketChats && Array.isArray(marketChats) && marketChats.length > 0;
@@ -259,21 +263,21 @@ export function PharmacyTable({
                       size="sm"
                       className="-ml-3 h-8 data-[state=open]:bg-purple-600 data-[state=open]:text-white"
                     >
-                      <span>{t.brandedPacket}</span>
+                      <span>{t.training}</span>
                       <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
                     <DropdownMenuRadioGroup
                       value={
-                        brandedPacketFilter === true
+                        trainingFilter === true
                           ? "true"
-                          : brandedPacketFilter === false
+                          : trainingFilter === false
                             ? "false"
                             : "null"
                       }
                       onValueChange={(val) =>
-                        handleFilterChange(val, onBrandedPacketFilterChange)
+                        handleFilterChange(val, onTrainingFilterChange)
                       }
                     >
                       <DropdownMenuRadioItem value="null">
@@ -303,21 +307,21 @@ export function PharmacyTable({
                       size="sm"
                       className="-ml-3 h-8 data-[state=open]:bg-purple-600 data-[state=open]:text-white"
                     >
-                      <span>{t.training}</span>
+                      <span>{t.brandedPacket}</span>
                       <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
                     <DropdownMenuRadioGroup
                       value={
-                        trainingFilter === true
+                        brandedPacketFilter === true
                           ? "true"
-                          : trainingFilter === false
+                          : brandedPacketFilter === false
                             ? "false"
                             : "null"
                       }
                       onValueChange={(val) =>
-                        handleFilterChange(val, onTrainingFilterChange)
+                        handleFilterChange(val, onBrandedPacketFilterChange)
                       }
                     >
                       <DropdownMenuRadioItem value="null">
@@ -453,19 +457,24 @@ export function PharmacyTable({
                     </td>
 
                     <td className="px-2 md:px-4 py-2 md:py-3 text-center">
-                      <div className="space-y-1 flex flex-col items-center">
-                        <div
-                          className={`font-bold text-xs px-2 py-1 rounded inline-block whitespace-nowrap ${hasTelegramBot
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                            }`}
-                        >
-                          {getTelegramBotStatus(marketChats)}
-                        </div>
-                        <span className="text-[11px] text-gray-600">
-                          {telegramBotCount}
-                        </span>
+                      <div
+                        className={`font-bold text-xs px-2 py-1 rounded inline-block whitespace-nowrap ${hasTelegramBot
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                          }`}
+                      >
+                        {getTelegramBotStatus(marketChats)}
                       </div>
+                    </td>
+                    <td className="px-2 md:px-4 py-2 md:py-3 text-center">
+                      <span
+                        className={`px-2 py-1 rounded text-xs font-bold inline-block whitespace-nowrap ${(pharmacy as any).training
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                          }`}
+                      >
+                        {getTrainingStatusText((pharmacy as any).training)}
+                      </span>
                     </td>
                     <td className="px-2 md:px-4 py-2 md:py-3 text-center">
                       <span
@@ -475,16 +484,6 @@ export function PharmacyTable({
                           }`}
                       >
                         {getStatusText((pharmacy as any).brandedPacket)}
-                      </span>
-                    </td>
-                    <td className="px-2 md:px-4 py-2 md:py-3 text-center">
-                      <span
-                        className={`px-2 py-1 rounded text-xs font-bold inline-block whitespace-nowrap ${(pharmacy as any).training
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                          }`}
-                      >
-                        {getStatusText((pharmacy as any).training)}
                       </span>
                     </td>
                     <td className="px-2 md:px-4 py-2 md:py-3">
