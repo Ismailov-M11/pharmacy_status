@@ -384,9 +384,9 @@ export function PharmacyDetailModal({
                   onValueChange={(value) => setPendingTraining(value === "true")}
                 >
                   <SelectTrigger
-                    className={`w-36 border-0 focus:ring-0 font-medium h-9 ${(pendingTraining ?? (pharmacy as any).training)
-                      ? "bg-green-600 hover:bg-green-700 text-white"
-                      : "bg-red-600 hover:bg-red-700 text-white"
+                    className={`w-36 border font-bold h-9 ${(pendingTraining ?? (pharmacy as any).training)
+                      ? "bg-green-100 text-green-800 border-green-200"
+                      : "bg-red-100 text-red-800 border-red-200"
                       }`}
                   >
                     <SelectValue />
@@ -451,9 +451,9 @@ export function PharmacyDetailModal({
                   onValueChange={(value) => setPendingPacket(value === "true")}
                 >
                   <SelectTrigger
-                    className={`w-36 border-0 focus:ring-0 font-medium h-9 ${(pendingPacket ?? (pharmacy as any).brandedPacket)
-                      ? "bg-green-600 hover:bg-green-700 text-white"
-                      : "bg-red-600 hover:bg-red-700 text-white"
+                    className={`w-36 border font-bold h-9 ${(pendingPacket ?? (pharmacy as any).brandedPacket)
+                      ? "bg-green-100 text-green-800 border-green-200"
+                      : "bg-red-100 text-red-800 border-red-200"
                       }`}
                   >
                     <SelectValue />
