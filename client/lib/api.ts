@@ -242,7 +242,6 @@ export async function updatePharmacyStatusLocal(
     throw new Error('Failed to update pharmacy status');
   }
 }
-}
 
 export async function getStatusHistory(
   pharmacyId: number
