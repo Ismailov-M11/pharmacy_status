@@ -159,7 +159,7 @@ export function PharmacyTable({
 
       <div
         className="border rounded-md bg-white shadow-sm overflow-auto"
-        style={{ maxHeight: "calc(100vh - 140px)" }}
+        style={{ maxHeight: "calc(100vh - 100px)" }}
       >
         <table className="w-full text-xs md:text-sm relative">
           <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-40 bg-white shadow-sm">
