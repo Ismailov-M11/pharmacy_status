@@ -157,15 +157,9 @@ export function PharmacyTable({
         </DropdownMenu>
       </div>
 
-      <div
-        className="border rounded-md bg-white shadow-sm overflow-auto overscroll-x-contain"
-        style={{
-          maxHeight: "calc(100vh - 140px)",
-          WebkitOverflowScrolling: "touch",
-        }}
-      >
+      <div className="border rounded-md bg-white shadow-sm">
         <table className="w-full text-xs md:text-sm relative">
-          <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-40 bg-white shadow-sm">
+          <thead className="bg-gray-50 border-b border-gray-200 sticky top-[82px] z-40 bg-white shadow-sm">
             <tr>
               <th
                 className="px-2 py-2 md:py-3 text-left font-semibold text-gray-700 whitespace-nowrap"
