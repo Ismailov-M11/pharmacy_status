@@ -124,8 +124,8 @@ export default function AgentPanel() {
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      <main className="w-full py-4 sm:py-8">
-        <div className="mb-4 sm:mb-8 px-4 sm:px-6 lg:px-8">
+      <main className="w-full">
+        <div className="mb-4 sm:mb-8 px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
           <h1 className="text-3xl font-bold text-gray-900">{t.agentPanel}</h1>
           <p className="text-gray-600 mt-2">{t.pharmacyName}</p>
         </div>
