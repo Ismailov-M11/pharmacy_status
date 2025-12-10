@@ -152,10 +152,11 @@ export async function updatePharmacyStatus(
 }
 
 // ============================================
-// LOCAL BACKEND API (localhost:5000)
+// LOCAL BACKEND API
 // ============================================
 
-const STATUS_API_BASE_URL = 'http://localhost:5000/api/status';
+// Use environment variable for backend URL, fallback to localhost for development
+const STATUS_API_BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api/status';
 
 export interface PharmacyStatus {
   pharmacy_id: string;
