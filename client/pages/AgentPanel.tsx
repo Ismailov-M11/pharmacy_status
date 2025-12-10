@@ -217,7 +217,13 @@ export default function AgentPanel() {
       toast.success(t.saved);
     } catch (error) {
       console.error("Failed to update pharmacy:", error);
-      toast.error(t.error);
+
+      // Check if backend is sleeping (cold start)
+      if (error instanceof Error && error.message === 'BACKEND_SLEEPING') {
+        toast.error("Сервер запускается. Пожалуйста, попробуйте еще раз через 1-2 минуты.");
+      } else {
+        toast.error(t.error);
+      }
     }
   };
 

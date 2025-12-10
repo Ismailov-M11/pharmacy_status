@@ -237,73 +237,80 @@ export default function AdminPanel() {
       toast.success(t.saved);
     } catch (error) {
       console.error("Failed to update pharmacy:", error);
-      toast.error(t.error);
+
+      // Check if backend is sleeping (cold start)
+      if (error instanceof Error && error.message === 'BACKEND_SLEEPING') {
+        toast.error("Сервер запускается. Пожалуйста, попробуйте еще раз через 1-2 минуты.");
+      } else {
+        toast.error(t.error);
+      }
     }
-  };
-
-  const handleDeleteHistory = async (ids: number[]) => {
-    try {
-      // Delete all selected records
-      await Promise.all(ids.map(id => deleteHistoryRecord(id)));
-
-      // Remove deleted records from state
-      setChangeHistory(prev => prev.filter(record => !ids.includes(record.id)));
-
-      toast.success(t.deleted || "Deleted");
-    } catch (error) {
-      console.error("Failed to delete history:", error);
-      toast.error(t.error);
-    }
-  };
-
-  if (authLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <span className="text-gray-500">{t.loading}</span>
-      </div>
-    );
   }
+};
 
+const handleDeleteHistory = async (ids: number[]) => {
+  try {
+    // Delete all selected records
+    await Promise.all(ids.map(id => deleteHistoryRecord(id)));
+
+    // Remove deleted records from state
+    setChangeHistory(prev => prev.filter(record => !ids.includes(record.id)));
+
+    toast.success(t.deleted || "Deleted");
+  } catch (error) {
+    console.error("Failed to delete history:", error);
+    toast.error(t.error);
+  }
+};
+
+if (authLoading) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-
-      <main className="w-full">
-        <div className="mb-4 sm:mb-8 px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-          <h1 className="text-3xl font-bold text-gray-900">{t.adminPanel}</h1>
-          <p className="text-gray-600 mt-2">{t.pharmacyName}</p>
-        </div>
-
-        <div className="bg-white shadow">
-          <PharmacyTable
-            pharmacies={filteredPharmacies}
-            isLoading={isLoading}
-            isAdmin={true}
-            activeFilter={activeFilter}
-            onFilterChange={setActiveFilter}
-            telegramBotFilter={telegramBotFilter}
-            onTelegramBotFilterChange={setTelegramBotFilter}
-            brandedPacketFilter={brandedPacketFilter}
-            onBrandedPacketFilterChange={setBrandedPacketFilter}
-            trainingFilter={trainingFilter}
-            onTrainingFilterChange={setTrainingFilter}
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            onPharmacyClick={handlePharmacyClick}
-          />
-        </div>
-      </main>
-
-      <PharmacyDetailModal
-        pharmacy={selectedPharmacy}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onUpdateStatus={handleUpdateStatus}
-        isAdmin={true}
-        currentUsername={user?.username}
-        changeHistory={changeHistory}
-        onDeleteHistory={handleDeleteHistory}
-      />
+    <div className="flex items-center justify-center min-h-screen">
+      <span className="text-gray-500">{t.loading}</span>
     </div>
   );
+}
+
+return (
+  <div className="min-h-screen bg-gray-50">
+    <Header />
+
+    <main className="w-full">
+      <div className="mb-4 sm:mb-8 px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <h1 className="text-3xl font-bold text-gray-900">{t.adminPanel}</h1>
+        <p className="text-gray-600 mt-2">{t.pharmacyName}</p>
+      </div>
+
+      <div className="bg-white shadow">
+        <PharmacyTable
+          pharmacies={filteredPharmacies}
+          isLoading={isLoading}
+          isAdmin={true}
+          activeFilter={activeFilter}
+          onFilterChange={setActiveFilter}
+          telegramBotFilter={telegramBotFilter}
+          onTelegramBotFilterChange={setTelegramBotFilter}
+          brandedPacketFilter={brandedPacketFilter}
+          onBrandedPacketFilterChange={setBrandedPacketFilter}
+          trainingFilter={trainingFilter}
+          onTrainingFilterChange={setTrainingFilter}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          onPharmacyClick={handlePharmacyClick}
+        />
+      </div>
+    </main>
+
+    <PharmacyDetailModal
+      pharmacy={selectedPharmacy}
+      isOpen={isModalOpen}
+      onClose={handleCloseModal}
+      onUpdateStatus={handleUpdateStatus}
+      isAdmin={true}
+      currentUsername={user?.username}
+      changeHistory={changeHistory}
+      onDeleteHistory={handleDeleteHistory}
+    />
+  </div>
+);
 }

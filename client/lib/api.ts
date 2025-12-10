@@ -200,24 +200,48 @@ export async function updatePharmacyStatusLocal(
   comment: string,
   changedBy: string
 ): Promise<PharmacyStatus> {
-  const response = await fetch(`${STATUS_API_BASE_URL}/update/${pharmacyId}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      update_type: field,
-      new_value: value,
-      comment,
-      changed_by: changedBy,
-    }),
-  });
+  try {
+    // Set timeout for request (30 seconds to allow for cold start)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-  if (!response.ok) {
+    const response = await fetch(`${STATUS_API_BASE_URL}/update/${pharmacyId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        update_type: field,
+        new_value: value,
+        comment,
+        changed_by: changedBy,
+      }),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      // Check if it's a 503 (service unavailable) or 504 (gateway timeout)
+      if (response.status === 503 || response.status === 504) {
+        throw new Error('BACKEND_SLEEPING');
+      }
+      throw new Error('Failed to update pharmacy status');
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      // Check if request was aborted (timeout)
+      if (error.name === 'AbortError') {
+        throw new Error('BACKEND_SLEEPING');
+      }
+      // Re-throw the error to be handled by the caller
+      throw error;
+    }
     throw new Error('Failed to update pharmacy status');
   }
-
-  return response.json();
+}
 }
 
 export async function getStatusHistory(
