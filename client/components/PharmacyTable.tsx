@@ -110,7 +110,7 @@ export function PharmacyTable({
   }
 
   return (
-    <div className="p-2 sm:p-4 space-y-4">
+    <div className="p-2 sm:p-4 space-y-4 sticky top-[82px] z-30 bg-gray-50">
       <div className="flex flex-col sm:flex-row gap-4 items-end sm:items-center justify-between">
         <Input
           type="text"
