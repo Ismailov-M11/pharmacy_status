@@ -130,7 +130,7 @@ export default function AgentPanel() {
           <p className="text-gray-600 mt-2">{t.pharmacyName}</p>
         </div>
 
-        <div className="bg-white shadow p-2 sm:p-4">
+        <div className="bg-white shadow">
           <PharmacyTable
             pharmacies={filteredPharmacies}
             isLoading={isLoading}
