@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, RefreshCw } from "lucide-react";
 
 interface PharmacyTableProps {
   pharmacies: Pharmacy[];
@@ -27,6 +27,7 @@ interface PharmacyTableProps {
   searchQuery?: string;
   onSearchChange?: (value: string) => void;
   onPharmacyClick?: (pharmacy: Pharmacy) => void;
+  onRefresh?: () => void;
 }
 
 export function PharmacyTable({
@@ -44,6 +45,7 @@ export function PharmacyTable({
   searchQuery = "",
   onSearchChange,
   onPharmacyClick,
+  onRefresh,
 }: PharmacyTableProps) {
   const { t } = useLanguage();
 
@@ -123,42 +125,54 @@ export function PharmacyTable({
           onChange={(e) => onSearchChange?.(e.target.value)}
           className="w-full sm:max-w-md"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="gap-2">
-              {t.filter}
-              <ChevronDown className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuRadioGroup
-              value={
-                activeFilter === true
-                  ? "true"
-                  : activeFilter === false
-                    ? "false"
-                    : "null"
-              }
-              onValueChange={(val) => handleFilterChange(val, onFilterChange)}
+        <div className="flex gap-2">
+          {onRefresh && (
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={onRefresh}
+              className="bg-blue-500 hover:bg-blue-600 text-white border-blue-500 hover:border-blue-600"
             >
-              <DropdownMenuRadioItem value="null">
-                {t.allPharmacies}
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem
-                value="true"
-                className="bg-emerald-100 text-emerald-800 focus:bg-emerald-200 focus:text-emerald-900 m-1 cursor-pointer"
+              <RefreshCw className="w-4 h-4" />
+            </Button>
+          )}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="gap-2">
+                {t.filter}
+                <ChevronDown className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuRadioGroup
+                value={
+                  activeFilter === true
+                    ? "true"
+                    : activeFilter === false
+                      ? "false"
+                      : "null"
+                }
+                onValueChange={(val) => handleFilterChange(val, onFilterChange)}
               >
-                {t.active}
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem
-                value="false"
-                className="bg-red-100 text-red-800 focus:bg-red-200 focus:text-red-900 m-1 cursor-pointer"
-              >
-                {t.inactive}
-              </DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+                <DropdownMenuRadioItem value="null">
+                  {t.allPharmacies}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem
+                  value="true"
+                  className="bg-emerald-100 text-emerald-800 focus:bg-emerald-200 focus:text-emerald-900 m-1 cursor-pointer"
+                >
+                  {t.active}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem
+                  value="false"
+                  className="bg-red-100 text-red-800 focus:bg-red-200 focus:text-red-900 m-1 cursor-pointer"
+                >
+                  {t.inactive}
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
 
       <div

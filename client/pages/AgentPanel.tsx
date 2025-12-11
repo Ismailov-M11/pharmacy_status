@@ -263,6 +263,7 @@ export default function AgentPanel() {
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             onPharmacyClick={handlePharmacyClick}
+            onRefresh={fetchPharmacies}
           />
         </div>
         <PharmacyDetailModal

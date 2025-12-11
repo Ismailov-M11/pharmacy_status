@@ -296,6 +296,7 @@ export default function AdminPanel() {
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             onPharmacyClick={handlePharmacyClick}
+            onRefresh={fetchPharmacies}
           />
         </div>
       </main>
