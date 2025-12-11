@@ -17,6 +17,7 @@ export const translations = {
     loginButton: "Войти",
     loginError: "Ошибка входа. Проверьте логин и пароль.",
     invalidCredentials: "Неверные учетные данные",
+    activationRequired: "Требуется активация аккаунта",
 
     // Table Headers
     number: "№",
@@ -115,6 +116,7 @@ export const translations = {
     loginButton: "Kirish",
     loginError: "Kirish xatosi. Login va parolni tekshiring.",
     invalidCredentials: "Noto'g'ri hisob ma'lumotlari",
+    activationRequired: "Hisobni faollashtirish talab qilinadi",
 
     // Table Headers
     number: "№",

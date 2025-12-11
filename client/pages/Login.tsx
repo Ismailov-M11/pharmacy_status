@@ -26,6 +26,11 @@ export default function Login() {
         password: password,
       });
 
+      if (response.payload?.token?.activationRequired) {
+        setError(t.activationRequired || "Account activation required");
+        return;
+      }
+
       if (
         response.payload &&
         response.payload.token &&
