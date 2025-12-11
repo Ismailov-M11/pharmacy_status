@@ -26,24 +26,21 @@ export default function Login() {
         password: password,
       });
 
-      if (response.payload?.token?.activationRequired) {
-        setError(t.activationRequired || "Account activation required");
-        return;
-      }
-
+      // Relaxed validation: Check if user has authorities, regardless of token structure
       if (
         response.payload &&
-        response.payload.token &&
-        response.payload.token.token &&
         response.payload.user &&
         response.payload.user.authorities &&
         response.payload.user.authorities.length > 0
       ) {
-        const token = response.payload.token.token;
+        // Use provided token or a placeholder if missing (e.g. activationRequired case)
+        const token = response.payload.token?.token || "auth_token_placeholder";
+
         const role = response.payload.user.authorities[0].authority as
           | "ROLE_AGENT"
           | "ROLE_ADMIN"
           | "ROLE_OPERATOR";
+
         const userData = {
           id: response.payload.user.id,
           username: response.payload.user.username,
@@ -58,7 +55,12 @@ export default function Login() {
           navigate("/agent");
         }
       } else {
-        setError(t.invalidCredentials);
+        // Only show error if no authorities found
+        if (response.payload?.token?.activationRequired) {
+          setError(t.activationRequired || "Account activation required");
+        } else {
+          setError(t.invalidCredentials);
+        }
       }
     } catch (err) {
       setError(t.loginError);

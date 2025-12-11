@@ -242,7 +242,7 @@ export default function AgentPanel() {
       <main className="w-full">
         <div className="mb-4 sm:mb-8 px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
           <h1 className="text-3xl font-bold text-gray-900">
-            {role === "ROLE_OPERATOR" ? "Панель оператора колл-центра" : t.agentPanel}
+            {role === "ROLE_OPERATOR" ? t.operatorPanel : t.agentPanel}
           </h1>
           <p className="text-gray-600 mt-2">{t.pharmacyName}</p>
         </div>

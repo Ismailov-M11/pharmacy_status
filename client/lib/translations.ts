@@ -56,6 +56,7 @@ export const translations = {
 
     // Panel Titles
     agentPanel: "Панель Агента",
+    operatorPanel: "Панель оператора колл-центра",
     adminPanel: "Панель Администратора",
 
     // Actions
@@ -155,6 +156,7 @@ export const translations = {
 
     // Panel Titles
     agentPanel: "Agent paneli",
+    operatorPanel: "Call-markaz operatori paneli",
     adminPanel: "Admin paneli",
 
     // Actions
