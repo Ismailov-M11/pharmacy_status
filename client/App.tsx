@@ -34,10 +34,10 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 function RoleBasedRoute({
-  requiredRole,
+  allowedRoles,
   children,
 }: {
-  requiredRole: string;
+  allowedRoles: string[];
   children: React.ReactNode;
 }) {
   const { role, isLoading } = useAuth();
@@ -50,7 +50,7 @@ function RoleBasedRoute({
     );
   }
 
-  if (role !== requiredRole) {
+  if (!role || !allowedRoles.includes(role)) {
     return <Navigate to="/login" replace />;
   }
 
@@ -70,7 +70,7 @@ const App = () => (
               <Route
                 path="/agent"
                 element={
-                  <RoleBasedRoute requiredRole="ROLE_AGENT">
+                  <RoleBasedRoute allowedRoles={["ROLE_AGENT", "ROLE_OPERATOR"]}>
                     <AgentPanel />
                   </RoleBasedRoute>
                 }
@@ -78,7 +78,7 @@ const App = () => (
               <Route
                 path="/admin"
                 element={
-                  <RoleBasedRoute requiredRole="ROLE_ADMIN">
+                  <RoleBasedRoute allowedRoles={["ROLE_ADMIN"]}>
                     <AdminPanel />
                   </RoleBasedRoute>
                 }
