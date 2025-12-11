@@ -37,7 +37,8 @@ export default function Login() {
         const token = response.payload.token.token;
         const role = response.payload.user.authorities[0].authority as
           | "ROLE_AGENT"
-          | "ROLE_ADMIN";
+          | "ROLE_ADMIN"
+          | "ROLE_OPERATOR";
         const userData = {
           id: response.payload.user.id,
           username: response.payload.user.username,
@@ -48,7 +49,7 @@ export default function Login() {
 
         if (role === "ROLE_ADMIN") {
           navigate("/admin");
-        } else if (role === "ROLE_AGENT") {
+        } else if (role === "ROLE_AGENT" || role === "ROLE_OPERATOR") {
           navigate("/agent");
         }
       } else {

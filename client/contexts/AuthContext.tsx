@@ -6,7 +6,7 @@ import {
   useEffect,
 } from "react";
 
-export type UserRole = "ROLE_AGENT" | "ROLE_ADMIN";
+export type UserRole = "ROLE_AGENT" | "ROLE_ADMIN" | "ROLE_OPERATOR";
 
 export interface User {
   id: number;
